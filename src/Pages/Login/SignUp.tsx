@@ -23,9 +23,7 @@ const SignUp = () => {
 
 
     const [pwd, setPwd] = useState('');
-    const [pwd2, setPwd2] = useState('');
     const [isRevealPwd, setIsRevealPwd] = useState(false);
-    const [isRevealPwd2, setIsRevealPwd2] = useState(false);
 
 
 
@@ -66,22 +64,22 @@ const SignUp = () => {
                                    name="password"
                                    value={pwd}
                                    onChange={e => setPwd(e.target.value)}
-                            {...register}
+                                   {...register}
 
                         />
                     </FormGroup>
                     <FormGroup>
                         <label>Enter your password again</label>
                         <img
-                            src={isRevealPwd2 ? eyeOpened : eyeClosed}
-                            onClick={() => setIsRevealPwd2(prevState => !prevState)}
+                            src={isRevealPwd ? eyeOpened : eyeClosed}
+                            onClick={() => setIsRevealPwd(prevState => !prevState)}
                         />
                         <input type={isRevealPwd ? "text" : "password"}
 
 
 
-                            {...register("password")}
-                            />
+                               {...register("password")}
+                        />
 
                     </FormGroup>
                     <CheckboxStyle>
@@ -121,7 +119,7 @@ const CheckboxStyle = styled.div`
   grid-template-columns: auto auto;
   justify-content: flex-start;
   align-items: baseline;
-  column-gap: 10px;  
+  column-gap: 10px;
   font-style: normal;
   font-weight: 500;
   font-size: 14px;
@@ -130,21 +128,21 @@ const CheckboxStyle = styled.div`
   margin-bottom: 24px;
 
   input {
-    background: ${theme.white};   
+    background: ${theme.white};
     box-sizing: border-box;
     position: relative;
     border-radius: 2px;
     height: 12px;
-    width: auto;     
+    width: auto;
     border: 1px solid ${theme.grey};
     appearance: none;
     cursor: pointer;
-   
+
     &:hover {
       border: 1px solid ${theme.red};
       background: ${theme.white};
     }
-    
+
     &::before {
       position: absolute;
       content: '';
