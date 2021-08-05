@@ -3,15 +3,15 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import {BrowserRouter as Router} from 'react-router-dom';
 import App from './App';
-import {GlobalStyle} from './Common/GlobalStyle';
-import {store} from "./redux";
+import {Theme} from './assets/theme/theme';
+import {store} from "./core/redux/store";
 
 
 
 ReactDOM.render(
     <Router>
         <Provider store={store} >
-            <GlobalStyle/>
+            <Theme/>
             <App/>
         </Provider>
     </Router>,

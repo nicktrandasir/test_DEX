@@ -1,6 +1,6 @@
 import React from 'react';
 import {Route, Switch } from 'react-router-dom';
-import { routes } from './Common/routes';
+import { routes } from './pages/routes';
 
 
 function App() {
