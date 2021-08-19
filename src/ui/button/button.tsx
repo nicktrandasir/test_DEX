@@ -1,73 +1,76 @@
 import React from "react";
 import styled from "styled-components";
-import {maxW, theme} from "../../assets/theme/theme";
+import { maxW, theme } from "../../assets/theme/theme";
 
 interface Props {
-    border: string;
-    color: string;
-    children?: React.ReactNode;
-    onClick?: () => void;
-    width: string;
-    type: any;
-    backgroundColor: any;
-    hover: any;
-    activeColor: any
+  name?: string;
+  onClick?: any;
+  red?: boolean;
+  large?: boolean;
+  small?: boolean;
+  exSmall?: boolean;
+  cancel?: boolean;
 }
 
-const Button: React.FC<Props> = ({
-                                     border,
-                                     color,
-                                     children,
-                                     onClick,
-                                     width,
-                                     type,
-                                     backgroundColor,
-                                     hover,
-                                     activeColor
+export const Button: React.FC<Props> = ({
+  name,
+  onClick,
+  red,
+  large,
+  small,
+  cancel,
+}) => {
+  return (
+    <div>
+      <ButtonStyle
+        onClick={onClick}
+        red={red}
+        large={large}
+        small={small}
+        type={cancel ? "reset" : "submit"}
+      >
+        {name}
+      </ButtonStyle>
+    </div>
+  );
+};
 
-                                 }) => {
-
-
-
-
-    return (
-        <StyledButton
-            onClick={onClick}
-            style={{
-                color,
-                border
-
-            }}
-            width={width}
-            backgroundColor={backgroundColor}
-            hover={hover}
-            activeColor={activeColor}
-            type={type}
-        >
-            {children}
-        </StyledButton>
-    );
-}
-
-export default Button;
-
-const StyledButton = styled.button<any>`
-  height: 40px;
-  width: ${(props) => props.width};
-  background-color: ${(props) => props.backgroundColor};
+const ButtonStyle = styled.button<{
+  red?: boolean;
+  large?: boolean;
+  small?: boolean;
+}>`
   border-radius: 4px;
+  height: 40px;
+  border: ${(props) => (props.red ? "none" : "1px solid #9C9C9C")};
+
+  color: ${(props) => (props.red ? `${theme.white}` : `${theme.lightGrey}`)};
+
+  background-color: ${(props) =>
+    props.red ? `${theme.red}` : `${theme.white}`};
+
+  width: ${(props) =>
+    props.large ? "366px" : props.small ? "171px" : "104px"};
 
   &:hover {
-    background-color: ${(props) => props.hover};
+    background-color: ${(props) =>
+      props.red ? `${theme.lightRed}` : `${theme.lightestGrey}`};
   }
+
   &:disabled {
-    background-color:  ${theme.lightestGrey1};
+    background-color: ${(props) =>
+      props.red ? `${theme.lightestGrey1}` : `${theme.lightestGrey1}`};
   }
+
   &:active {
-    background-color: ${(props) => props.activeColor};
-  } 
+    background-color: ${(props) =>
+      props.red ? `${theme.darkRed}` : `${theme.grey}`};
+  }
 
   @media screen and ${maxW.ssm} {
-    width: 100%;   
+    width: ${(props) =>
+      props.large 
+          ? "calc(100vw - 24px)"
+        : (props.small ? "100%" : "calc(100vw - 24px)")
   }
 `;

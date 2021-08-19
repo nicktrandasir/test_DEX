@@ -1,0 +1,11 @@
+
+Ktypescript:S1128"(Remove this unused import of 'FirstRow'.(şç½È8¼¹ó…´/
+Ftypescript:S125"Remove this commented out code.(Ö•èúÿÿÿÿ8¶Çµ‚´/
+Stypescript:S1854!"2Remove this useless assignment to variable "page".(–ˆí¬şÿÿÿÿ
+Xtypescript:S1854&"5Remove this useless assignment to variable "control".(«Áêê8ƒ§—…´/
+Rtypescript:S1854*"7Remove this useless assignment to variable "startDate".(Ó©Œ/
+Utypescript:S1854*":Remove this useless assignment to variable "setStartDate".(Ó©Œ/
+[typescript:S1854,":Remove this useless assignment to variable "handleChange".(Ì«Ùúúÿÿÿÿ
+Rtypescript:S41238"1Refactor this redundant 'await' on a non-promise.(œª‰ãùÿÿÿÿ
+:typescript:S125A"Remove this commented out code.(Çşç“
+Ztypescript:S1854L"7Remove this useless assignment to variable "clearForm".(…±±¤8¾¹ó…´/

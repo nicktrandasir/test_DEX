@@ -1,39 +1,39 @@
-import React from 'react';
+import React from "react";
 import styled from "styled-components";
-import {maxW, theme} from '../../assets/theme/theme';
-import searchIcon from './../../assets/icon/search.svg'
+import { maxW, theme } from "../../assets/theme/theme";
+import searchIcon from "./../../assets/icon/search.svg";
 
-const Search = () => {
-    return (
-        <SearchStyle>
-            <StyledSearch type="search" placeholder="Search..."/>
-        </SearchStyle>
-    );
+export const Search = () => {
+  return (
+    <SearchStyle>
+      <StyledSearch type="search" placeholder="Search..." />
+    </SearchStyle>
+  );
 };
 
-export default Search;
+
 
 const SearchStyle = styled.div`
   position: relative;
 
   &:before {
-    content: '';
+    content: "";
     position: absolute;
     z-index: 2;
     top: 13px;
     right: 30px;
     width: 16px;
-    height: 16px;   
+    height: 16px;
     background: url(${searchIcon}) center center no-repeat;
   }
-  
+
   @media screen and ${maxW.ssm} {
     justify-content: center;
     width: 100%;
-    
-    &:before {     
-      right: 12px;     
-    }  
+
+    &:before {
+      right: 12px;
+    }
   }
 `;
 
@@ -63,8 +63,8 @@ const StyledSearch = styled.input`
     outline: none;
   }
 
-  @media screen and ${maxW.ssm} {    
-      width: 100%;
-      margin-right: 0;
-    }  
+  @media screen and ${maxW.ssm} {
+    width: 100%;
+    margin-right: 0;
+  }
 `;

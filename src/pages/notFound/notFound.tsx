@@ -1,22 +1,26 @@
-import React from 'react';
+import React from "react";
 import styled from "styled-components";
 import NotFoundImg from "../../assets/img/notFound.svg";
-import {maxW, theme} from '../../assets/theme/theme';
+import { maxW, theme } from "../../assets/theme/theme";
+import { PrivateRoute } from "../../сommon/privateRouter";
 
-const NotFound = () => {
-    return (
-        <NotFoundStyle>
-            <ImageStyle>
-                <img style={{display: "grid", maxWidth: "100%"}} src={NotFoundImg} alt="Picture"/>
-            </ImageStyle>
-            <div>
-                <Title>Page not found</Title>
-                <SecondTitle>Sorry, we can’t find what you’re looking for</SecondTitle>
-            </div>
-        </NotFoundStyle>
-    );
+export const NotFound = () => {
+  return (
+    <PrivateRoute>
+      <NotFoundStyle>
+        <ImageStyle>
+          <Image src={NotFoundImg} alt="Not Found" />
+        </ImageStyle>
+        <div>
+          <Title>Page not found</Title>
+          <SecondTitle>
+            Sorry, we can’t find what you’re looking for
+          </SecondTitle>
+        </div>
+      </NotFoundStyle>
+    </PrivateRoute>
+  );
 };
-export default NotFound;
 
 const NotFoundStyle = styled.div`
   display: grid;
@@ -26,7 +30,7 @@ const NotFoundStyle = styled.div`
   align-content: center;
 
   @media screen and ${maxW.sm} {
-    text-align: center;     
+    text-align: center;
   }
 `;
 
@@ -38,11 +42,11 @@ const Title = styled.p`
   font-weight: 800;
   font-size: 36px;
   line-height: 49px;
-  color:  ${theme.lightestRed};
-  
-  @media screen and ${maxW.sm} {    
-      font-size: 17px;
-      line-height: 25px;      
+  color: ${theme.lightestRed};
+
+  @media screen and ${maxW.sm} {
+    font-size: 17px;
+    line-height: 25px;
   }
 `;
 
@@ -63,5 +67,10 @@ const SecondTitle = styled.span`
 
 const ImageStyle = styled.div`
   display: grid;
-  justify-content: center;    
+  justify-content: center;
+`;
+
+const Image = styled.img`
+  display: grid;
+  max-width: 100%;
 `;

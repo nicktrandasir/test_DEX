@@ -1,0 +1,9 @@
+
+Jtypescript:S1128")Remove this unused import of 'FormGroup'.(šçø»úÿÿÿÿ
+Dtypescript:S1128"(Remove this unused import of 'FirstRow'.(ë”æ
+Stypescript:S1854"2Remove this useless assignment to variable "page".(–ˆí¬þÿÿÿÿ
+_typescript:S1854">Remove this useless assignment to variable "handleChangePage".(ßöç´ÿÿÿÿÿ
+Rtypescript:S4123&"1Refactor this redundant 'await' on a non-promise.(œª‰ãùÿÿÿÿ
+:typescript:S1251"Remove this commented out code.(Çþç“
+Mtypescript:S41234"1Refactor this redundant 'await' on a non-promise.(ð¢Éÿ
+Stypescript:S1854<"7Remove this useless assignment to variable "clearForm".(…±±¤
