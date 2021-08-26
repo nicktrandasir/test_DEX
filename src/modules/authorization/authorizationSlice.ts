@@ -17,8 +17,8 @@ export const authSlice = createSlice({
   reducers: {
     logout(state) {
       state.isAuth = false;
-      state.name = "";
-      state.avatarUrl = "";
+      state.name = null;
+      state.avatarUrl = null;
       localStorage.clear();
     },
   },
@@ -63,5 +63,4 @@ export const authSlice = createSlice({
   },
 });
 
-export default authSlice.reducer;
 export const { logout } = authSlice.actions;

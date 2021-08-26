@@ -2,23 +2,18 @@ import React from "react";
 import styled from "styled-components";
 import NotFoundImg from "../../assets/img/notFound.svg";
 import { maxW, theme } from "../../assets/theme/theme";
-import { PrivateRoute } from "../../сommon/privateRouter";
 
 export const NotFound = () => {
   return (
-    <PrivateRoute>
-      <NotFoundStyle>
-        <ImageStyle>
-          <Image src={NotFoundImg} alt="Not Found" />
-        </ImageStyle>
-        <div>
-          <Title>Page not found</Title>
-          <SecondTitle>
-            Sorry, we can’t find what you’re looking for
-          </SecondTitle>
-        </div>
-      </NotFoundStyle>
-    </PrivateRoute>
+    <NotFoundStyle>
+      <ImageStyle>
+        <Image src={NotFoundImg} alt="Not Found" />
+      </ImageStyle>
+      <div>
+        <Title>Page not found</Title>
+        <SecondTitle>Sorry, we can’t find what you’re looking for</SecondTitle>
+      </div>
+    </NotFoundStyle>
   );
 };
 
@@ -29,7 +24,7 @@ const NotFoundStyle = styled.div`
   justify-content: center;
   align-content: center;
 
-  @media screen and ${maxW.sm} {
+  @media screen and (${maxW.sm}) {
     text-align: center;
   }
 `;
@@ -44,7 +39,7 @@ const Title = styled.p`
   line-height: 49px;
   color: ${theme.lightestRed};
 
-  @media screen and ${maxW.sm} {
+  @media screen and (${maxW.sm}) {
     font-size: 17px;
     line-height: 25px;
   }
@@ -59,7 +54,7 @@ const SecondTitle = styled.span`
   line-height: 33px;
   color: ${theme.grey};
 
-  @media screen and ${maxW.sm} {
+  @media screen and (${maxW.sm}) {
     font-size: 15px;
     line-height: 24px;
   }

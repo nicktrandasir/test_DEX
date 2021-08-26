@@ -1,13 +1,28 @@
-import React, { useMemo } from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect, useMemo } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { maxW, theme } from "../../../assets/theme/theme";
-import { NavLink } from "react-router-dom";
-import { AppStateType } from "../../../core/redux/rootReducer";
-import { ITeam } from "../../../api/dto/ITeam";
+import { maxW, theme } from "../../assets/theme/theme";
+import { NavLink, useHistory } from "react-router-dom";
+import { AppStateType } from "../../core/redux/rootReducer";
+import { ITeam } from "../../api/dto/ITeam";
+import { CardItemsLayout } from "../../components/сardItems/cardItemsLayout";
+import { clearUpdatedTeam } from "../../modules/teams/teamsSlice";
+import { getTeams } from "../../modules/teams/teamsThunk";
 
 export const CardTeams = () => {
   const { teams } = useSelector((state: AppStateType) => state.teams);
+  const dispatch = useDispatch();
+
+  const history = useHistory();
+  const onAddTeam = () => {
+    dispatch(clearUpdatedTeam());
+    history.push("/addUpdateTeam");
+  };
+
+  useEffect(() => {
+    dispatch(getTeams());
+    //eslint-disable-next-line
+  }, []);
 
   const allTeams = useMemo(
     () =>
@@ -32,7 +47,11 @@ export const CardTeams = () => {
     [teams]
   );
 
-  return <CardItemsStyle>{allTeams}</CardItemsStyle>;
+  return (
+    <CardItemsLayout items={teams} onAddPlayer={onAddTeam} teamsSize>
+      <CardItemsStyle>{allTeams}</CardItemsStyle>
+    </CardItemsLayout>
+  );
 };
 
 export const CardItem = styled.div`
@@ -47,7 +66,7 @@ export const CardItem = styled.div`
   );
   border-radius: 4px;
 
-  @media screen and ${maxW.ssm} {
+  @media screen and (${maxW.ssm}) {
     height: max-content;
   }
 `;
@@ -68,7 +87,7 @@ export const ItemInfo = styled.div`
   background: ${theme.darkGrey};
   border-radius: 0 0 4px 4px;
 
-  @media screen and ${maxW.ssm} {
+  @media screen and (${maxW.ssm}) {
     height: 80px;
   }
 `;
@@ -80,7 +99,7 @@ const TeamNameTitle = styled.p`
   font-size: 18px;
   line-height: 0;
 
-  @media screen and ${maxW.ssm} {
+  @media screen and (${maxW.ssm}) {
     font-size: 15px;
   }
 `;
@@ -92,7 +111,7 @@ export const CardItemsStyle = styled.div`
   align-items: flex-start;
   background-color: ${theme.lightestGrey1};
 
-  @media screen and ${maxW.md} {
+  @media screen and (${maxW.md}) {
     grid-template-columns: 1fr 1fr;
     grid-gap: 12px;
   }
@@ -105,7 +124,7 @@ const YearFoundation = styled.p`
   font-size: 14px;
   line-height: 0;
 
-  @media screen and ${maxW.ssm} {
+  @media screen and (${maxW.ssm}) {
     font-size: 13px;
   }
 `;
@@ -114,7 +133,7 @@ const TeamPhotoDiv = styled.div`
   display: grid;
   justify-content: center;
 
-  @media screen and ${maxW.lg} {
+  @media screen and (${maxW.lg}) {
     display: grid;
     justify-content: center;
   }
@@ -125,7 +144,7 @@ const TeamPhoto = styled.img`
   padding: 64px 0 64px 0;
   max-width: 100%;
 
-  @media screen and ${maxW.ssm} {
+  @media screen and (${maxW.ssm}) {
     width: 60%;
     padding: 32px 0 32px 0;
     margin: auto;

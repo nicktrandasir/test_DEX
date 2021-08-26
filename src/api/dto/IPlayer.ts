@@ -2,7 +2,7 @@ export interface IAddPlayerRequest {
   name: string;
   number: number;
   position: string;
-  team: string;
+  team: number;
   birthday: number;
   height: number;
   weight: number;
@@ -14,20 +14,19 @@ export interface IUpdatePlayerRequest {
   name: string;
   number: number;
   position: string;
-  team: string;
+  team: number;
   birthday: number;
   height: number;
   weight: number;
   avatarUrl: string;
 }
 
-
-
 export interface IPlayers {
   loaded: boolean;
-  players: Array<any> | null;
-  player: IPlayer | null;
+  players: IPlayer[];
+  player: IPlayer;
   updatedPlayer: IPlayer | null;
+  positions: Array<string>;
 }
 
 export interface IPlayer {
@@ -35,7 +34,7 @@ export interface IPlayer {
   name: string;
   number: number;
   position: string;
-  team: string;
+  team: number;
   birthday: number;
   height: number;
   weight: number;
@@ -47,7 +46,7 @@ export interface IAddPlayer {
   name: string;
   number: number;
   position: string;
-  team: string;
+  team: number;
   birthday: number;
   height: number;
   weight: number;

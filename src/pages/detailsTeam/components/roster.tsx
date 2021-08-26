@@ -1,15 +1,15 @@
 import React, { useMemo } from "react";
-import { maxW, theme } from "../../../../assets/theme/theme";
+import { maxW, theme } from "../../../assets/theme/theme";
 import { useSelector } from "react-redux";
-import { AppStateType } from "../../../../core/redux/rootReducer";
+import { AppStateType } from "../../../core/redux/rootReducer";
 import styled from "styled-components";
 
-export const Roster = ({ id }: any  ) => {
+export const Roster = ({ id }: number | any) => {
   const { players } = useSelector((state: AppStateType) => state.players);
 
   const getAge = (birthDate: number) =>
-    //@ts-ignore
-    Math.floor((new Date() - new Date(birthDate).getTime()) / 3.15576e10);
+    Math.floor((new Date().valueOf() - new Date(birthDate).getTime()) / 3.15576e10);
+
 
   const teamPlayers = useMemo(
     () =>
@@ -18,7 +18,7 @@ export const Roster = ({ id }: any  ) => {
           player.team === id && (
             <InfoSections>
               <FirstColumnSection>
-                <div style={{width: "14px"}}>{player.number}</div>
+                <div style={{ width: "14px" }}>{player.number}</div>
                 <PlayerInfo>
                   <PhotoPlayerRoster
                     src={`http://dev.trainee.dex-it.ru${player.avatarUrl}`}
@@ -49,9 +49,9 @@ export const Roster = ({ id }: any  ) => {
     <TeamPlayersInfo>
       <RosterSection>Roster</RosterSection>
       <InfoSections style={{ height: "40px" }}>
-        <FirstColumnSection style={{gap: "48px" }}>
+        <FirstColumnSection style={{ gap: "48px" }}>
           <div>#</div>
-          <PlayerInfo >Player</PlayerInfo>
+          <PlayerInfo>Player</PlayerInfo>
         </FirstColumnSection>
         <SecondColumnSection>
           <div>Height</div>
@@ -67,14 +67,16 @@ export const Roster = ({ id }: any  ) => {
 const TeamPlayersInfo = styled.div`
   border-radius: 10px;
   display: grid;
+  margin-top: 24px;
   grid-template-rows: auto;
   height: fit-content;
   color: ${theme.grey};
   border: 0.5px solid ${theme.lightGrey};
   background: ${theme.white};
 
-  @media screen and ${maxW.md} {
+  @media screen and (${maxW.md}) {
     grid-template-rows: auto;
+    margin-top: 16px;
     height: fit-content;
     border-radius: 0;
     border-left: 0;
@@ -94,7 +96,7 @@ const RosterSection = styled.div`
   border-bottom: 0.5px solid ${theme.lightGrey};
   box-sizing: border-box;
 
-  @media screen and ${maxW.md} {
+  @media screen and (${maxW.md}) {
     padding-left: 16px;
   }
 `;
@@ -118,11 +120,10 @@ const InfoSections = styled.div`
   :last-child {
     border-bottom: none;
   }
-  @media screen and ${maxW.lg} {
+  @media screen and (${maxW.lg}) {
     grid-template-columns: 240px 240px;
-
   }
-  @media screen and ${maxW.md} {
+  @media screen and (${maxW.md}) {
     padding-left: 16px;
     grid-template-columns: 240px;
   }
@@ -140,17 +141,17 @@ const FirstColumnSection = styled.div`
   gap: 34px;
 `;
 
-const SecondColumnSection = styled.div` 
+const SecondColumnSection = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   text-align: center;
   gap: 80px;
 
-  @media screen and ${maxW.lg} {
+  @media screen and (${maxW.lg}) {
     gap: 20px;
   }
-  
-  @media screen and ${maxW.md} {
+
+  @media screen and (${maxW.md}) {
     display: none;
   }
 `;

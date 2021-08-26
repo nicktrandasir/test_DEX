@@ -1,22 +1,26 @@
 import React from "react";
-import { Route, Switch } from "react-router-dom";
-import { routes } from "./pages/routes";
+import { SignIn } from "./pages/signIn/signIn";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { SignUp } from "./pages/signUp/signUp";
+import { PrivateRoute, routes } from "./pages/routes";
 
-function App() {
+export const App = () => {
   return (
-    <div>
+    <Router>
       <Switch>
-        {routes.map((route, index) => (
-          <Route
+        <Route exact path="/" component={SignIn} />
+        <Route exact path="/signIn" component={SignIn} />
+        <Route exact path="/signUp" component={SignUp} />
+
+        {routes.map((route, index: number) => (
+          <PrivateRoute
             key={index}
             path={route.path}
             exact={route.exact}
-            children={<route.main />}
+            component={route.main}
           />
         ))}
       </Switch>
-    </div>
+    </Router>
   );
-}
-
-export default App;
+};

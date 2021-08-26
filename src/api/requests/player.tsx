@@ -1,5 +1,9 @@
 import { BaseRequest } from "../baseRequest";
-import { IAddPlayerRequest, IPlayer, IUpdatePlayerRequest } from "../dto/IPlayer";
+import {
+  IAddPlayerRequest,
+  IPlayer,
+  IUpdatePlayerRequest,
+} from "../dto/IPlayer";
 
 export const players = {
   getPlayers: () => {
@@ -80,6 +84,17 @@ export const players = {
       }
     );
   },
+
+  getPositions: () => {
+    return BaseRequest.get("/Player/GetPositions", {
+      headers: {
+        Authorization: `Bearer ` + localStorage.token,
+      },
+    }).then((response) => {
+      return response.data;
+    });
+  },
+
   deletePlayer: (id: number): Promise<IPlayer> => {
     return BaseRequest.delete(`/Player/Delete?id=${id}`, {
       headers: {

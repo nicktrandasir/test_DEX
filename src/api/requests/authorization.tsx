@@ -1,4 +1,8 @@
-import {IAuthorization, ILoginRequest, IRegistrationRequest } from "../dto/IAuthorization";
+import {
+  IAuthorization,
+  ILoginRequest,
+  IRegistrationRequest,
+} from "../dto/IAuthorization";
 import { BaseRequest } from "../baseRequest";
 
 export const auth = {

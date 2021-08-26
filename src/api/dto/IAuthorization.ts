@@ -17,6 +17,7 @@ export interface ILogin {
   token: string | null;
   avatarUrl: string | null;
 }
+
 export interface IAuthorization {
   name: string;
   avatarUrl: string;

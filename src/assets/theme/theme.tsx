@@ -28,35 +28,21 @@ export const size = {
   xxl: "1400px",
 };
 export const maxW = {
-  xs: `(max-width: ${size.xs})`,
-  ssm: `(max-width: ${size.ssm})`,
-  sm: `(max-width: ${size.sm})`,
-  md: `(max-width: ${size.md})`,
-  slg: `(max-width: ${size.slg})`,
-  lg: `(max-width: ${size.lg})`,
-  xl: `(max-width: ${size.xl})`,
-  xxl: `(max-width: ${size.xxl})`,
+  xs: `max-width: ${size.xs}`,
+  ssm: `max-width: ${size.ssm}`,
+  sm: `max-width: ${size.sm}`,
+  md: `max-width: ${size.md}`,
+  slg: `max-width: ${size.slg}`,
+  lg: `max-width: ${size.lg}`,
+  xl: `max-width: ${size.xl}`,
+  xxl: `max-width: ${size.xxl}`,
 };
 
 export const sizeMin = {
-  xs: "375px",
-  ssm: "513px",
-  sm: "576px",
-  md: "769px",
-  slg: "900px",
-  lg: "992px",
-  xl: "1200px",
-  xxl: "1400px",
+  md: "768px",
 };
 export const minW = {
-  xs: `(mix-width: ${sizeMin.xs})`,
-  ssm: `(mix-width: ${sizeMin.ssm})`,
-  sm: `(mix-width: ${sizeMin.sm})`,
-  md: `(mix-width: ${sizeMin.md})`,
-  slg: `(mix-width: ${sizeMin.slg})`,
-  lg: `(mix-width: ${sizeMin.lg})`,
-  xl: `(mix-width: ${sizeMin.xl})`,
-  xxl: `(mix-width: ${sizeMin.xxl})`,
+  md: `min-width: ${sizeMin.md}`,
 };
 
 export const Theme = createGlobalStyle`

@@ -13,45 +13,23 @@ export const getPlayers = createAsyncThunk("/Player/GetPlayers", () => {
 });
 
 export const getPlayer = createAsyncThunk(
-  "Player/Get",
+  "player/getPlayer",
   ({ id }: { id: number }) => {
     return players.getPlayer(id);
   }
 );
 
-export const saveImage = createAsyncThunk<string, FormData>(
-  "Image/setImage",
-  (formData) => {
-    return imageRequest.save(formData);
-  }
-);
 export const addPlayer = createAsyncThunk<IAddPlayer, IAddPlayerRequest>(
   "player/addUpdatePlayer",
-  async ({
-    name,
-    number,
-    position,
-    team,
-    birthday,
-    height,
-    weight,
-    avatarUrl,
-  }) => {
+  async ({ ...data }) => {
     const formData = new FormData();
-    formData.append("file", avatarUrl);
+    formData.append("file", data.avatarUrl);
     let image = "";
     if (formData) {
       image = await imageRequest.save(formData);
     }
-    console.log(image);
     return players.addPlayer({
-      name,
-      number,
-      position,
-      team,
-      birthday,
-      height,
-      weight,
+      ...data,
       avatarUrl: image,
     });
   }
@@ -60,30 +38,32 @@ export const addPlayer = createAsyncThunk<IAddPlayer, IAddPlayerRequest>(
 export const updatePlayerThunk = createAsyncThunk<
   IPlayer,
   IUpdatePlayerRequest
->("player/updatePlayer", async ({ avatarUrl, ...data }) => {
+>("player/updatePlayer", async ({ ...data }) => {
   var image = "";
-
-    //@ts-ignore
-  if (avatarUrl instanceof File) {
-
+  if (data.avatarUrl as any instanceof File) {
     const formData = new FormData();
-    formData.append("file", avatarUrl);
-
+    formData.append("file", data.avatarUrl);
     if (formData) {
       image = await imageRequest.save(formData);
     }
   } else {
-    image = avatarUrl;
+    image = data.avatarUrl;
   }
-console.log(data)
   return players.updatePlayer({
     ...data,
     avatarUrl: image,
   });
 });
 
+export const getPlayersPositions = createAsyncThunk(
+  "player/getPosition",
+  () => {
+    return players.getPositions();
+  }
+);
+
 export const deletePlayer = createAsyncThunk<IPlayer, { id: number }>(
-  "Player/Delete",
+  "player/deletePlayer",
   ({ id }) => {
     return players.deletePlayer(id);
   }

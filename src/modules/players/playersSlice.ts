@@ -1,12 +1,20 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { addPlayer, deletePlayer, getPlayer, getPlayers, updatePlayerThunk } from "./playersThunk";
-import {IPlayers} from "../../api/dto/IPlayer";
+import {
+  addPlayer,
+  deletePlayer,
+  getPlayer,
+  getPlayers,
+  getPlayersPositions,
+  updatePlayerThunk,
+} from "./playersThunk";
+import {IPlayer, IPlayers} from "../../api/dto/IPlayer";
 
 const initialState: IPlayers = {
   loaded: false,
   players: [],
-  player: null,
+  player: {} as IPlayer,
   updatedPlayer: null,
+  positions: [],
 };
 
 export const playersSlice = createSlice({
@@ -21,6 +29,16 @@ export const playersSlice = createSlice({
     },
   },
   extraReducers: {
+    [getPlayersPositions.pending.type]: (state) => {
+      state.loaded = false;
+    },
+    [getPlayersPositions.fulfilled.type]: (state, { payload }) => {
+      state.positions = payload;
+    },
+    [getPlayersPositions.rejected.type]: (state) => {
+      state.loaded = false;
+    },
+
     [getPlayers.pending.type]: (state) => {
       state.loaded = false;
     },
@@ -31,8 +49,6 @@ export const playersSlice = createSlice({
     [getPlayers.rejected.type]: (state) => {
       state.loaded = false;
     },
-
-
 
     [getPlayer.pending.type]: (state) => {
       state.loaded = false;
@@ -45,8 +61,6 @@ export const playersSlice = createSlice({
       state.loaded = false;
     },
 
-
-
     [addPlayer.pending.type]: (state) => {
       state.loaded = true;
     },
@@ -57,7 +71,6 @@ export const playersSlice = createSlice({
       state.loaded = false;
     },
 
-
     [updatePlayerThunk.pending.type]: (state) => {
       state.loaded = true;
     },
@@ -67,8 +80,6 @@ export const playersSlice = createSlice({
     [updatePlayerThunk.rejected.type]: (state) => {
       state.loaded = false;
     },
-
-
 
     [deletePlayer.pending.type]: (state) => {
       state.loaded = true;

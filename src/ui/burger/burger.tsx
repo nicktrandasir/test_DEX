@@ -1,24 +1,29 @@
+import { useState } from "react";
 import React from "react";
+import styled from "styled-components";
+import { maxW, minW, theme } from "../../assets/theme/theme";
 import profile from "../../assets/icon/profile.svg";
 import SignOutIcon from "../../assets/icon/signOut (2).svg";
-import styled from "styled-components";
 import { NavLink } from "react-router-dom";
-import { maxW, theme } from "../../assets/theme/theme";
 
 export const Burger = () => {
-  return (
-    <BurgerGlobalStyle>
-      <input id="menu__toggle" type="checkbox" />
-      <label className="menu__btn" htmlFor="menu__toggle">
-        <span />
-      </label>
+  const [open, setOpen] = useState(false);
+  const userName = localStorage.name;
 
-      <div className="menu__box">
-        <BurgerNav>
+  return (
+    <>
+      <StyledBurger onClick={() => setOpen(!open)}>
+        <BurgerRows open={open} />
+        <BurgerRows open={open} />
+        <BurgerRows open={open} />
+      </StyledBurger>
+
+      <BurgerSidebar open={open}>
+        <BackgroundForSidebar>
           <div>
             <UserAvatarForSidebar>
               <UserAvatarImg src={profile} alt="profile" />
-              <UserNameP>User Name</UserNameP>
+              <UserNameP>{userName ?? "User name"}</UserNameP>
             </UserAvatarForSidebar>
             <HrLine />
             <TeamsIconStyle>
@@ -29,12 +34,7 @@ export const Burger = () => {
                   viewBox="0 0 16 16"
                   xmlns="http://www.w3.org/2000/svg"
                 >
-                  <g id="group_person">
-                    <path
-                      id="group_person_2"
-                      d="M7.32675 5.33325C7.32675 6.43992 6.44008 7.33325 5.33341 7.33325C4.22675 7.33325 3.33341 6.43992 3.33341 5.33325C3.33341 4.22659 4.22675 3.33325 5.33341 3.33325C6.44008 3.33325 7.32675 4.22659 7.32675 5.33325ZM12.6601 5.33325C12.6601 6.43992 11.7734 7.33325 10.6667 7.33325C9.56008 7.33325 8.66675 6.43992 8.66675 5.33325C8.66675 4.22659 9.56008 3.33325 10.6667 3.33325C11.7734 3.33325 12.6601 4.22659 12.6601 5.33325ZM5.33341 8.66659C3.78008 8.66659 0.666748 9.44659 0.666748 10.9999V11.9999C0.666748 12.3666 0.966748 12.6666 1.33341 12.6666H9.33341C9.70008 12.6666 10.0001 12.3666 10.0001 11.9999V10.9999C10.0001 9.44659 6.88675 8.66659 5.33341 8.66659ZM10.0201 8.69992C10.2534 8.67992 10.4734 8.66659 10.6667 8.66659C12.2201 8.66659 15.3334 9.44659 15.3334 10.9999V11.9999C15.3334 12.3666 15.0334 12.6666 14.6667 12.6666H11.2134C11.2867 12.4599 11.3334 12.2333 11.3334 11.9999V10.9999C11.3334 10.0199 10.8067 9.27992 10.0467 8.72659C10.0447 8.72457 10.0427 8.72194 10.0405 8.71907C10.0354 8.71246 10.0294 8.70457 10.0201 8.69992Z"
-                    />
-                  </g>
+                  <path d="M7.32675 5.33325C7.32675 6.43992 6.44008 7.33325 5.33341 7.33325C4.22675 7.33325 3.33341 6.43992 3.33341 5.33325C3.33341 4.22659 4.22675 3.33325 5.33341 3.33325C6.44008 3.33325 7.32675 4.22659 7.32675 5.33325ZM12.6601 5.33325C12.6601 6.43992 11.7734 7.33325 10.6667 7.33325C9.56008 7.33325 8.66675 6.43992 8.66675 5.33325C8.66675 4.22659 9.56008 3.33325 10.6667 3.33325C11.7734 3.33325 12.6601 4.22659 12.6601 5.33325ZM5.33341 8.66659C3.78008 8.66659 0.666748 9.44659 0.666748 10.9999V11.9999C0.666748 12.3666 0.966748 12.6666 1.33341 12.6666H9.33341C9.70008 12.6666 10.0001 12.3666 10.0001 11.9999V10.9999C10.0001 9.44659 6.88675 8.66659 5.33341 8.66659ZM10.0201 8.69992C10.2534 8.67992 10.4734 8.66659 10.6667 8.66659C12.2201 8.66659 15.3334 9.44659 15.3334 10.9999V11.9999C15.3334 12.3666 15.0334 12.6666 14.6667 12.6666H11.2134C11.2867 12.4599 11.3334 12.2333 11.3334 11.9999V10.9999C11.3334 10.0199 10.8067 9.27992 10.0467 8.72659C10.0447 8.72457 10.0427 8.72194 10.0405 8.71907C10.0354 8.71246 10.0294 8.70457 10.0201 8.69992Z" />
                 </StyledSvg>
                 <StyledNav>Teams</StyledNav>
               </Link>
@@ -54,7 +54,6 @@ export const Burger = () => {
               </Link>
             </PersonIconStyle>
           </div>
-
           <div style={{ display: "grid" }}>
             <Link to="/signIn">
               <img
@@ -67,113 +66,76 @@ export const Burger = () => {
               </StyledNav>
             </Link>
           </div>
-        </BurgerNav>
-      </div>
-    </BurgerGlobalStyle>
+        </BackgroundForSidebar>
+      </BurgerSidebar>
+    </>
   );
 };
 
+const StyledBurger = styled.div`
+  width: 2rem;
+  height: 2rem;
+  position: fixed;
+  top: 15px;
+  left: 12px;
+  z-index: 20;
+  display: none;
 
-
-export const BurgerGlobalStyle = styled.div`
-  @media only screen and (min-width: 769px) {
-    display: none;
-  }
-  @media only screen and ${maxW.md} {
-    visibility: visible;
-  }
-
-  #menu__toggle {
-    display: none;
-  }
-
-  .menu__btn {
+  @media screen and (${maxW.md}) {
     display: flex;
-    align-items: center;
-    position: fixed;
-    top: 20px;
-    left: 20px;
-    width: 26px;
-    height: 26px;
-    cursor: pointer;
-    z-index: 13;
+    justify-content: space-around;
+    flex-flow: column nowrap;
   }
 
-  .menu__btn > span,
-  .menu__btn > span::before,
-  .menu__btn > span::after {
-    display: block;
-    position: absolute;
-    width: 100%;
-    height: 3.5px;
-    background-color: ${theme.darkGrey2};
-  }
-
-  .menu__btn > span::before {
-    content: "";
-    top: -8px;
-  }
-
-  .menu__btn > span::after {
-    content: "";
-    top: 8px;
-  }
-
-  .menu__box {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    position: absolute;
-    visibility: hidden;
-    width: 100vw;
-    height: calc(100vh - 62px);
-    background-color: ${theme.white};
-    background: ${theme.darkGrey};
-  }
-
-  .menu__item {
-    display: block;
-    padding: 12px 24px;
-    color: #333;
-    font-family: "Avenir", sans-serif;
-    font-size: 20px;
-    font-weight: 600;
-    text-decoration: none;
-  }
-
-  .menu__item:hover {
-    background-color: ${theme.lightestGrey};
-  }
-
-  #menu__toggle:checked ~ .menu__btn > span {
-    transform: rotate(45deg);
-  }
-
-  #menu__toggle:checked ~ .menu__btn > span::before {
-    top: 0;
-    transform: rotate(0);
-  }
-
-  #menu__toggle:checked ~ .menu__btn > span::after {
-    top: 0;
-    transform: rotate(90deg);
-  }
-
-  #menu__toggle:checked ~ .menu__box {
-    visibility: visible;
-    left: 0;
-    top: 61px;
-    position: fixed;
-    right: 0;
-    width: auto;
-    z-index: 3;
+  @media screen and (${minW.md}) {
+    display: none;
   }
 `;
 
-const BurgerNav = styled.div`
+const BurgerRows = styled.div<{ open: boolean }>`
+  width: 2rem;
+  height: 0.25rem;
+  background-color: ${theme.darkGrey1};
+  border-radius: 10px;
+  transform-origin: 1px;
+  transition: all 0.3s linear;
+
+  &:nth-child(1) {
+    transform: ${({ open }) => (open ? "rotate(45deg)" : "rotate(0)")};
+  }
+  &:nth-child(2) {
+    display: ${({ open }) => (open ? "invisible" : "visible")};
+    opacity: ${({ open }) => (open ? 0 : 1)};
+  }
+  &:nth-child(3) {
+    transform: ${({ open }) => (open ? "rotate(-45deg)" : "rotate(0)")};
+  }
+`;
+
+const BurgerSidebar = styled.div<{ open: boolean }>`
+  width: 100vw;
+  background: rgba(0, 0, 0, 0.5);
+
+  @media screen and (${maxW.md}) {
+    position: fixed;
+    transform: ${({ open }) => (open ? "translateX(0)" : "translateX(-100%)")};
+    top: 62px;
+    left: 0;
+    display: grid;
+    height: calc(100% - 62px);
+    transition: transform 0.3s ease-in-out;
+  }
+  @media screen and (${minW.md}) {
+    display: none;
+  }
+`;
+
+const BackgroundForSidebar = styled.div`
   display: grid;
   grid-template-rows: auto 48px;
-  padding-left: 20px;
+  width: 50vw;
   background: ${theme.white};
+  padding-left: 20px;
 `;
 
 const HrLine = styled.hr`

@@ -15,11 +15,10 @@ export interface IUpdateTeamRequest {
   imageUrl: string;
 }
 
-
 export interface ITeams {
   loaded: boolean;
-  teams: Array<any> | null;
-  team?: ITeam | null;
+  teams: ITeam[];
+  team: ITeam ;
   updatedTeam?: ITeam | null;
 }
 

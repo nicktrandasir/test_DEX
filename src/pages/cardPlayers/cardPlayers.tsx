@@ -1,18 +1,40 @@
 import React, { useMemo } from "react";
 import styled from "styled-components";
-import { maxW, theme } from "../../../assets/theme/theme";
-import { useSelector } from "react-redux";
-import { NavLink } from "react-router-dom";
-import { AppStateType } from "../../../core/redux/rootReducer";
-import { IPlayer } from "../../../api/dto/IPlayer";
+import { maxW, theme } from "../../assets/theme/theme";
+import { useDispatch, useSelector } from "react-redux";
+import { NavLink, useHistory } from "react-router-dom";
+import { AppStateType } from "../../core/redux/rootReducer";
+import { clearUpdatedPlayer } from "../../modules/players/playersSlice";
+import { getPlayers } from "../../modules/players/playersThunk";
+import { getTeams } from "../../modules/teams/teamsThunk";
+import { CardItemsLayout } from "../../components/сardItems/cardItemsLayout";
 
 export const CardPlayers = () => {
-  const { players } = useSelector((state: AppStateType) => state.players);
+  const dispatch = useDispatch();
+  const history = useHistory();
+
+  const onAddPlayer = () => {
+    dispatch(clearUpdatedPlayer());
+    history.push("/addUpdatePlayer");
+  };
+
+  useMemo(() => {
+    dispatch(getTeams());
+    dispatch(getPlayers());
+    //eslint-disable-next-line
+  }, []);
   const { teams } = useSelector((state: AppStateType) => state.teams);
+  const { players } = useSelector((state: AppStateType) => state.players);
+
+
 
   const allPlayers = useMemo(
     () =>
-      players?.map((player: IPlayer) => (
+      players?.map((player) => {
+
+        const teamName = teams.find((team) => team.id === player.team);
+
+        return (
         <CardItem>
           <StyledLink to={"/detailsPlayer/" + player.id}>
             <PlayerPhotoDiv>
@@ -29,16 +51,20 @@ export const CardPlayers = () => {
                 </span>
               </NameNumber>
               <TeamName>
-                {teams?.find((team) => team.id === player.team).name}
+                {teamName?.name}
               </TeamName>
             </ItemInfo>
           </StyledLink>
         </CardItem>
-      )),
+      )}),
     [players, teams]
   );
 
-  return <CardItemsStyle>{allPlayers}</CardItemsStyle>;
+  return (
+    <CardItemsLayout items={players} teams={teams} onAddPlayer={onAddPlayer}>
+      <CardItemsStyle>{allPlayers}</CardItemsStyle>
+    </CardItemsLayout>
+  );
 };
 
 export const CardItem = styled.div`
@@ -53,7 +79,7 @@ export const CardItem = styled.div`
   );
   border-radius: 4px;
 
-  @media screen and ${maxW.ssm} {
+  @media screen and (${maxW.ssm}) {
     height: max-content;
   }
 `;
@@ -74,7 +100,7 @@ export const ItemInfo = styled.div`
   background: ${theme.darkGrey};
   border-radius: 0 0 4px 4px;
 
-  @media screen and ${maxW.ssm} {
+  @media screen and (${maxW.ssm}) {
     height: 80px;
   }
 `;
@@ -86,7 +112,7 @@ export const CardItemsStyle = styled.div`
   gap: 24px;
   background-color: ${theme.lightestGrey1};
 
-  @media screen and ${maxW.md} {
+  @media screen and (${maxW.md}) {
     grid-template-columns: 1fr 1fr;
     grid-gap: 12px;
   }
@@ -98,7 +124,7 @@ const NameNumber = styled.p`
   font-size: 18px;
   line-height: 0;
 
-  @media screen and ${maxW.ssm} {
+  @media screen and (${maxW.ssm}) {
     font-size: 15px;
   }
 `;
@@ -110,7 +136,7 @@ const TeamName = styled.p`
   font-size: 14px;
   line-height: 0;
 
-  @media screen and ${maxW.ssm} {
+  @media screen and (${maxW.ssm}) {
     font-size: 13px;
   }
 `;
@@ -121,7 +147,7 @@ const PlayerPhotoDiv = styled.div`
   align-items: end;
   padding-top: 73px;
 
-  @media screen and ${maxW.ssm} {
+  @media screen and (${maxW.ssm}) {
     padding-top: 11px;
   }
 `;

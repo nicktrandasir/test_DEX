@@ -11,8 +11,6 @@ export const Search = () => {
   );
 };
 
-
-
 const SearchStyle = styled.div`
   position: relative;
 
@@ -27,7 +25,7 @@ const SearchStyle = styled.div`
     background: url(${searchIcon}) center center no-repeat;
   }
 
-  @media screen and ${maxW.ssm} {
+  @media screen and (${maxW.ssm}) {
     justify-content: center;
     width: 100%;
 
@@ -43,11 +41,11 @@ const StyledSearch = styled.input`
   width: 364px;
   height: 40px;
   font-size: 14px;
-  background: ${theme.white} !important;
+  background: ${theme.white};
   padding-left: 12px;
   padding-right: 30px;
   margin-right: 22px;
-  border: 0.5px solid ${theme.lightestGrey} !important;
+  border: 0.5px solid ${theme.lightestGrey};
   box-sizing: border-box;
   border-radius: 4px;
 
@@ -55,15 +53,11 @@ const StyledSearch = styled.input`
     cursor: pointer;
   }
 
-  &:hover {
-    background-color: ${theme.lightestGrey} !important;
-  }
-
   &:focus {
     outline: none;
   }
 
-  @media screen and ${maxW.ssm} {
+  @media screen and (${maxW.ssm}) {
     width: 100%;
     margin-right: 0;
   }

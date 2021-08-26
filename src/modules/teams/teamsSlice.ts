@@ -1,16 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
-import {ITeams} from "../../api/dto/ITeam";
+import {ITeam, ITeams} from "../../api/dto/ITeam";
 import {
   addTeam,
   deleteTeam,
   getTeam,
-  getTeams, updateTeamThunk,
+  getTeams,
+  updateTeamThunk,
 } from "./teamsThunk";
 
 const initialState: ITeams = {
   loaded: false,
   teams: [],
-  team: null,
+  team: {} as ITeam,
   updatedTeam: null,
 };
 
@@ -18,7 +19,7 @@ export const teamsSlice = createSlice({
   name: "teams",
   initialState,
   reducers: {
-    teamForUpdate: (state ) => {
+    teamForUpdate: (state) => {
       state.updatedTeam = state.team;
     },
     clearUpdatedTeam: (state) => {
@@ -80,4 +81,4 @@ export const teamsSlice = createSlice({
   },
 });
 
-export const {teamForUpdate, clearUpdatedTeam} = teamsSlice.actions;
+export const { teamForUpdate, clearUpdatedTeam } = teamsSlice.actions;

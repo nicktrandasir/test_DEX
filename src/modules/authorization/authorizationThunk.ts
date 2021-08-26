@@ -9,20 +9,9 @@ import { auth } from "../../api/requests/authorization";
 export const setRegister = createAsyncThunk<
   IAuthorization,
   IRegistrationRequest
->(
-  "authorization/SignUp",
-  ({
-    userName,
-    login,
-    password,
-  }: {
-    userName: string;
-    login: string;
-    password: string;
-  }) => {
-    return auth.register({ userName, login, password });
-  }
-);
+>("authorization/SignUp", ({ userName, login, password }) => {
+  return auth.register({ userName, login, password });
+});
 
 export const setLogin = createAsyncThunk<IAuthorization, ILoginRequest>(
   "authorization/SignIn",
