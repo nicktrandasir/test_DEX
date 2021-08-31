@@ -1,13 +1,15 @@
 import { BaseRequest } from "../baseRequest";
 import {
-  IAddPlayerRequest,
+  IAddPlayerRequest, IPage,
   IPlayer,
   IUpdatePlayerRequest,
 } from "../dto/IPlayer";
 
 export const players = {
-  getPlayers: () => {
-    return BaseRequest.get("/Player/GetPlayers", {
+  getPlayers: (
+      currentPage = 1,
+      pageSize = 6): Promise<IPage<IPlayer>> => {
+    return BaseRequest.get(`/Player/GetPlayers?Page=${currentPage}&PageSize=${pageSize}`, {
       headers: {
         Authorization: `Bearer ` + localStorage.token,
       },

@@ -4,13 +4,18 @@ import { imageRequest } from "../../api/requests/image";
 import {
   IAddPlayer,
   IAddPlayerRequest,
+  IGetPlayersRequest,
+  IPage,
   IPlayer,
   IUpdatePlayerRequest,
 } from "../../api/dto/IPlayer";
 
-export const getPlayers = createAsyncThunk("/Player/GetPlayers", () => {
-  return players.getPlayers();
-});
+export const getPlayers = createAsyncThunk<IPage<IPlayer>, IGetPlayersRequest>(
+  "player/getPlayers",
+  ({ currentPage, pageSize }) => {
+    return players.getPlayers(currentPage, pageSize);
+  }
+);
 
 export const getPlayer = createAsyncThunk(
   "player/getPlayer",
@@ -40,7 +45,7 @@ export const updatePlayerThunk = createAsyncThunk<
   IUpdatePlayerRequest
 >("player/updatePlayer", async ({ ...data }) => {
   var image = "";
-  if (data.avatarUrl as any instanceof File) {
+  if ((data.avatarUrl as any) instanceof File) {
     const formData = new FormData();
     formData.append("file", data.avatarUrl);
     if (formData) {

@@ -12,7 +12,7 @@ export interface ILoginRequest {
 export interface ILogin {
   isAuth: boolean;
   name: string | null;
-  error: null | string;
+  error?: null | string;
   isFetching: boolean;
   token: string | null;
   avatarUrl: string | null;

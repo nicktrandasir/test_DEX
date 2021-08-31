@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useCallback, useEffect, useMemo } from "react";
 import styled from "styled-components";
 import { maxW, theme } from "../../assets/theme/theme";
 import { useDispatch, useSelector } from "react-redux";
@@ -18,50 +18,96 @@ export const CardPlayers = () => {
     history.push("/addUpdatePlayer");
   };
 
-  useMemo(() => {
-    dispatch(getTeams());
-    dispatch(getPlayers());
+  const { teams, teamsCount } = useSelector(
+    (state: AppStateType) => state.teams
+  );
+  const { players, playersCount, pageSize, currentPage } = useSelector(
+    (state: AppStateType) => state.players
+  );
+
+  useEffect(() => {
+    dispatch(
+      getTeams({
+        currentPage: 1,
+        pageSize: teamsCount,
+      })
+    );
+    dispatch(
+      getPlayers({
+        currentPage: 1,
+        pageSize: 6,
+      })
+    );
     //eslint-disable-next-line
   }, []);
-  const { teams } = useSelector((state: AppStateType) => state.teams);
-  const { players } = useSelector((state: AppStateType) => state.players);
 
+  const pageSizeChange = useCallback(
+    (e) => {
+      dispatch(
+        getPlayers({
+          currentPage: 1,
+          pageSize: e.value,
+        })
+      );
+    },
+    [dispatch, pageSize]
+  );
+
+
+    const onPageChanged = useCallback(
+        ({ selected }) => {
+            dispatch(
+                getPlayers({
+                    currentPage: selected + 1,
+                    pageSize,
+                })
+            );
+        },
+        [dispatch, pageSize]
+    );
 
 
   const allPlayers = useMemo(
     () =>
       players?.map((player) => {
-
         const teamName = teams.find((team) => team.id === player.team);
 
         return (
-        <CardItem>
-          <StyledLink to={"/detailsPlayer/" + player.id}>
-            <PlayerPhotoDiv>
-              <PlayerPhoto
-                src={`http://dev.trainee.dex-it.ru${player.avatarUrl}`}
-                alt="Photo"
-              />
-            </PlayerPhotoDiv>
-            <ItemInfo>
-              <NameNumber>
-                {player.name}
-                <span style={{ color: `${theme.lightRed}` }}>
-                  {""} #{player.number}
-                </span>
-              </NameNumber>
-              <TeamName>
-                {teamName?.name}
-              </TeamName>
-            </ItemInfo>
-          </StyledLink>
-        </CardItem>
-      )}),
+          <CardItem>
+            <StyledLink to={"/detailsPlayer/" + player.id}>
+              <PlayerPhotoDiv>
+                <PlayerPhoto
+                  src={`http://dev.trainee.dex-it.ru${player.avatarUrl}`}
+                  alt="Photo"
+                />
+              </PlayerPhotoDiv>
+              <ItemInfo>
+                <NameNumber>
+                  {player.name}
+                  <span style={{ color: `${theme.lightRed}` }}>
+                    {""} #{player.number}
+                  </span>
+                </NameNumber>
+                <TeamName>{teamName?.name}</TeamName>
+              </ItemInfo>
+            </StyledLink>
+          </CardItem>
+        );
+      }),
     [players, teams]
   );
 
   return (
-    <CardItemsLayout items={players} teams={teams} onAddPlayer={onAddPlayer}>
+    <CardItemsLayout
+      items={players}
+      teams={teams}
+      onAddPlayer={onAddPlayer}
+      itemsCount={playersCount}
+      currentPage={currentPage}
+      pageSize={pageSize}
+      onPageChanged={onPageChanged}
+      pageSizeChange={pageSizeChange}
+    >
       <CardItemsStyle>{allPlayers}</CardItemsStyle>
     </CardItemsLayout>
   );

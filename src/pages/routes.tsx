@@ -13,11 +13,15 @@ import { Route } from "react-router-dom";
 
 export const PrivateRoute = ({ component, ...props }: any) => {
   const { isAuth } = useSelector((state: AppStateType) => state.auth);
+
   const finalComponent = isAuth ? component : SignIn;
   return <Route {...props} component={finalComponent} />;
 };
 
+
+
 export const routes = [
+
   {
     path: "/teams",
     exact: true,

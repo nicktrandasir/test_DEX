@@ -1,13 +1,21 @@
 import { BaseRequest } from "../baseRequest";
-import { IAddTeamRequest, ITeam, IUpdateTeamRequest } from "../dto/ITeam";
+import {
+  IAddTeamRequest,
+  ITeam,
+  IUpdateTeamRequest,
+  IPage,
+} from "../dto/ITeam";
 
 export const teams = {
-  getTeams: () => {
-    return BaseRequest.get("/Team/GetTeams", {
-      headers: {
-        Authorization: `Bearer ` + localStorage.token,
-      },
-    }).then((response) => {
+  getTeams: (currentPage = 1, pageSize = 6): Promise<IPage<ITeam>> => {
+    return BaseRequest.get(
+      `/Team/GetTeams?Page=${currentPage}&PageSize=${pageSize}`,
+      {
+        headers: {
+          Authorization: `Bearer ` + localStorage.token,
+        },
+      }
+    ).then((response) => {
       return response.data;
     });
   },

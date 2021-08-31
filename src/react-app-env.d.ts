@@ -2,3 +2,5 @@
 interface EventTarget {
     value: any;
 }
+
+declare module '@sweetalert/with-react'

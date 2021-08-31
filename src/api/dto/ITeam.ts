@@ -20,6 +20,9 @@ export interface ITeams {
   teams: ITeam[];
   team: ITeam ;
   updatedTeam?: ITeam | null;
+  teamsCount: number;
+  currentPage: number;
+  pageSize: number;
 }
 
 export interface ITeam {
@@ -38,4 +41,16 @@ export interface IAddTeam {
   conference: string;
   foundationYear: number;
   imageUrl: string;
+}
+export interface IGetTeamsRequest {
+  currentPage: number;
+  pageSize: number;
+}
+
+
+export interface IPage<T> {
+  data: T,
+  count: number,
+  page: number,
+  size: number
 }

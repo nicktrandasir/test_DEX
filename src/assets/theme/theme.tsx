@@ -61,4 +61,56 @@ export const Theme = createGlobalStyle`
     -webkit-appearance: none;
     margin: 0;
   }
+
+  
+  // Style for Sweetalert
+  .swal-overlay {    
+    background-color: rgba(0, 0, 0, 0);   
+  }
+
+  .swal-overlay--show-modal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 10%;
+    width: 70%;
+    left: 30%;   
+  } 
+  
+  .warningAlert {
+    background-color: ${theme.lightRed};
+    position: absolute;
+    top: 36px;
+    right: 36px;
+    height: 40px;
+    margin: 0;
+    width: auto;
+  }
+
+  .swal-content {
+    height: 100%; 
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    padding: 0 16px;
+    margin: 0;
+  }
+
+  .forSweetAlert {
+    font-size: 16px;
+    color: ${theme.white};
+  }
+
+  @media screen and (${maxW.md}) {
+    .swal-overlay--show-modal {
+      width: auto;
+      left: 0;
+    }
+    .warningAlert {
+      top: 0;
+      right: 0;
+      width: 100%;
+      border-radius: 0;
+    }
+  }  
 `;

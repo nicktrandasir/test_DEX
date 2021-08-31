@@ -11,7 +11,8 @@ import {
 } from "../../modules/players/playersThunk";
 import { useHistory } from "react-router-dom";
 import { AppStateType } from "../../core/redux/rootReducer";
-import swal from "sweetalert";
+
+
 import { clearUpdatedPlayer } from "../../modules/players/playersSlice";
 import { CustomInput } from "../../ui/customInput/customInput";
 import { CustomSelect } from "../../ui/customSelect/customSelect";
@@ -35,7 +36,10 @@ export const AddUpdatePlayer = () => {
   } = useForm();
 
   useEffect(() => {
-    dispatch(getTeams());
+    dispatch(getTeams({
+      currentPage:1,
+      pageSize: 3
+    }));
     dispatch(getPlayersPositions());
     //eslint-disable-next-line
   }, []);
@@ -69,7 +73,7 @@ export const AddUpdatePlayer = () => {
           })
         );
         dispatch(clearUpdatedPlayer());
-        swal("Изменения сохранены!", "", "success");
+
         history.push("/players");
       } else {
         dispatch(
@@ -78,7 +82,7 @@ export const AddUpdatePlayer = () => {
           })
         );
         history.push("/players");
-        swal("Игрок добавлен!", "", "success");
+
       }
     },
     [dispatch, history, updatedPlayer]

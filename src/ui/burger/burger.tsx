@@ -4,11 +4,21 @@ import styled from "styled-components";
 import { maxW, minW, theme } from "../../assets/theme/theme";
 import profile from "../../assets/icon/profile.svg";
 import SignOutIcon from "../../assets/icon/signOut (2).svg";
-import { NavLink } from "react-router-dom";
+import {NavLink, useHistory} from "react-router-dom";
+import {logout} from "../../modules/authorization/authorizationSlice";
+import {useDispatch, useSelector} from "react-redux";
+import {AppStateType} from "../../core/redux/rootReducer";
 
 export const Burger = () => {
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const isAuth = useSelector((state: AppStateType) => state.auth.isAuth);
   const [open, setOpen] = useState(false);
   const userName = localStorage.name;
+  const onSignOut = () => {
+    isAuth && dispatch(logout());
+    history.push("./signIn");
+  };
 
   return (
     <>
@@ -60,6 +70,7 @@ export const Burger = () => {
                 style={{ paddingRight: "8px" }}
                 src={SignOutIcon}
                 alt="Sign out icon"
+                onClick={onSignOut}
               />
               <StyledNav style={{ color: `${theme.lightestRed}` }}>
                 Sign out

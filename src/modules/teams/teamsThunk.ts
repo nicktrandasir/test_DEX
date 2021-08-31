@@ -5,13 +5,18 @@ import { imageRequest } from "../../api/requests/image";
 import {
   IAddTeam,
   IAddTeamRequest,
+  IGetTeamsRequest,
+  IPage,
   ITeam,
   IUpdateTeamRequest,
 } from "../../api/dto/ITeam";
 
-export const getTeams = createAsyncThunk<ITeam>("Team/GetTeams", () => {
-  return teams.getTeams();
-});
+export const getTeams = createAsyncThunk<IPage<ITeam>, IGetTeamsRequest>(
+  "team/GetTeams",
+  ({ currentPage, pageSize }) => {
+    return teams.getTeams(currentPage, pageSize);
+  }
+);
 
 export const getTeam = createAsyncThunk<ITeam, { id: number }>(
   "Team/Get",
@@ -40,7 +45,7 @@ export const updateTeamThunk = createAsyncThunk<ITeam, IUpdateTeamRequest>(
   "team/updateTeam",
   async ({ ...data }) => {
     var image = "";
-    if (data.imageUrl as any instanceof File) {
+    if ((data.imageUrl as any) instanceof File) {
       const formData = new FormData();
       formData.append("file", data.imageUrl);
       if (formData) {

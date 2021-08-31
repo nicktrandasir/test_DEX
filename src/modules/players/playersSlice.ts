@@ -7,7 +7,8 @@ import {
   getPlayersPositions,
   updatePlayerThunk,
 } from "./playersThunk";
-import {IPlayer, IPlayers} from "../../api/dto/IPlayer";
+import { IPlayer, IPlayers } from "../../api/dto/IPlayer";
+import { HandleErrors } from "../../helpers/handleErrors/handleErrors";
 
 const initialState: IPlayers = {
   loaded: false,
@@ -15,6 +16,9 @@ const initialState: IPlayers = {
   player: {} as IPlayer,
   updatedPlayer: null,
   positions: [],
+  playersCount: 0,
+  currentPage: 1,
+  pageSize: 6,
 };
 
 export const playersSlice = createSlice({
@@ -35,8 +39,9 @@ export const playersSlice = createSlice({
     [getPlayersPositions.fulfilled.type]: (state, { payload }) => {
       state.positions = payload;
     },
-    [getPlayersPositions.rejected.type]: (state) => {
+    [getPlayersPositions.rejected.type]: (state, {error}) => {
       state.loaded = false;
+      HandleErrors(error);
     },
 
     [getPlayers.pending.type]: (state) => {
@@ -45,9 +50,13 @@ export const playersSlice = createSlice({
     [getPlayers.fulfilled.type]: (state, { payload }) => {
       state.loaded = true;
       state.players = payload.data;
+      state.playersCount = payload.count;
+      state.currentPage = payload.page;
+      state.pageSize = payload.size;
     },
-    [getPlayers.rejected.type]: (state) => {
+    [getPlayers.rejected.type]: (state, {error}) => {
       state.loaded = false;
+      HandleErrors(error);
     },
 
     [getPlayer.pending.type]: (state) => {
@@ -57,8 +66,9 @@ export const playersSlice = createSlice({
       state.loaded = true;
       state.player = payload;
     },
-    [getPlayer.rejected.type]: (state) => {
+    [getPlayer.rejected.type]: (state, {error}) => {
       state.loaded = false;
+      HandleErrors(error);
     },
 
     [addPlayer.pending.type]: (state) => {
@@ -67,8 +77,9 @@ export const playersSlice = createSlice({
     [addPlayer.fulfilled.type]: (state) => {
       state.loaded = false;
     },
-    [addPlayer.rejected.type]: (state) => {
+    [addPlayer.rejected.type]: (state, {error}) => {
       state.loaded = false;
+      HandleErrors(error);
     },
 
     [updatePlayerThunk.pending.type]: (state) => {
@@ -77,8 +88,9 @@ export const playersSlice = createSlice({
     [updatePlayerThunk.fulfilled.type]: (state) => {
       state.loaded = false;
     },
-    [updatePlayerThunk.rejected.type]: (state) => {
+    [updatePlayerThunk.rejected.type]: (state, {error}) => {
       state.loaded = false;
+      HandleErrors(error);
     },
 
     [deletePlayer.pending.type]: (state) => {
@@ -87,10 +99,11 @@ export const playersSlice = createSlice({
     [deletePlayer.fulfilled.type]: (state) => {
       state.loaded = false;
     },
-    [deletePlayer.rejected.type]: (state) => {
+    [deletePlayer.rejected.type]: (state, {error}) => {
       state.loaded = false;
-    },
-  },
+      HandleErrors(error);
+    }
+  }
 });
 
 export const { playerForUpdate, clearUpdatedPlayer } = playersSlice.actions;

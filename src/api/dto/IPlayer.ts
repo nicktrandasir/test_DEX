@@ -27,6 +27,9 @@ export interface IPlayers {
   player: IPlayer;
   updatedPlayer: IPlayer | null;
   positions: Array<string>;
+  playersCount: number,
+  currentPage: number,
+  pageSize: number,
 }
 
 export interface IPlayer {
@@ -51,4 +54,14 @@ export interface IAddPlayer {
   height: number;
   weight: number;
   avatarUrl: string;
+}
+export interface IGetPlayersRequest {
+  currentPage: number;
+  pageSize: number;
+}
+export interface IPage<T> {
+  data: T;
+  page: number;
+  count: number;
+  size: number;
 }

@@ -8,9 +8,12 @@ import { ITeam } from "../../api/dto/ITeam";
 import { CardItemsLayout } from "../../components/сardItems/cardItemsLayout";
 import { clearUpdatedTeam } from "../../modules/teams/teamsSlice";
 import { getTeams } from "../../modules/teams/teamsThunk";
+import { useCallback } from "react";
 
 export const CardTeams = () => {
-  const { teams } = useSelector((state: AppStateType) => state.teams);
+  const { teams, teamsCount, currentPage, pageSize } = useSelector(
+    (state: AppStateType) => state.teams
+  );
   const dispatch = useDispatch();
 
   const history = useHistory();
@@ -19,10 +22,42 @@ export const CardTeams = () => {
     history.push("/addUpdateTeam");
   };
 
+
+
   useEffect(() => {
-    dispatch(getTeams());
+    dispatch(
+      getTeams({
+        currentPage: 1,
+        pageSize: 6,
+      })
+    );
     //eslint-disable-next-line
   }, []);
+
+  const pageSizeChange = useCallback(
+    (e) => {
+      dispatch(
+        getTeams({
+          currentPage: 1,
+          pageSize: e.value,
+        })
+      );
+    },
+    [dispatch, pageSize]
+  );
+
+  const onPageChanged = useCallback(
+    ({ selected }) => {
+      dispatch(
+        getTeams({
+          currentPage: selected + 1,
+          pageSize,
+        })
+      );
+    },
+    [dispatch, pageSize]
+  );
+
 
   const allTeams = useMemo(
     () =>
@@ -48,7 +83,16 @@ export const CardTeams = () => {
   );
 
   return (
-    <CardItemsLayout items={teams} onAddPlayer={onAddTeam} teamsSize>
+    <CardItemsLayout
+      items={teams}
+      onAddPlayer={onAddTeam}
+      teamsSize
+      itemsCount={teamsCount}
+      currentPage={currentPage}
+      pageSize={pageSize}
+      onPageChanged={onPageChanged}
+      pageSizeChange={pageSizeChange}
+    >
       <CardItemsStyle>{allTeams}</CardItemsStyle>
     </CardItemsLayout>
   );

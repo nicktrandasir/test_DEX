@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { ILogin } from "../../api/dto/IAuthorization";
+import { HandleErrors } from "../../helpers/handleErrors/handleErrors";
 import { setLogin, setRegister } from "./authorizationThunk";
 
 const initialState: ILogin = {
@@ -37,9 +38,10 @@ export const authSlice = createSlice({
       localStorage.name = payload.name;
       localStorage.avatarUrl = payload.avatarUrl;
     },
-    [setRegister.rejected.type]: (state) => {
+    [setRegister.rejected.type]: (state, {error}) => {
       state.isFetching = false;
-      state.error = "Network error!";
+      state.error = error?.message;
+      HandleErrors(error);
     },
 
     [setLogin.pending.type]: (state) => {
@@ -56,11 +58,12 @@ export const authSlice = createSlice({
       localStorage.name = payload.name;
       localStorage.avatarUrl = payload.avatarUrl;
     },
-    [setLogin.rejected.type]: (state) => {
+    [setLogin.rejected.type]: (state, {error}) => {
       state.isFetching = false;
-      state.error = "Network error!";
-    },
-  },
+      state.error = error?.message;
+      HandleErrors(error);
+    }
+  }
 });
 
 export const { logout } = authSlice.actions;

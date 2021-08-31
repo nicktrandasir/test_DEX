@@ -5,7 +5,6 @@ import { maxW, theme } from "../../assets/theme/theme";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteTeam, getTeam } from "../../modules/teams/teamsThunk";
 import { AppStateType } from "../../core/redux/rootReducer";
-import swal from "sweetalert";
 import { teamForUpdate } from "../../modules/teams/teamsSlice";
 import { getPlayers } from "../../modules/players/playersThunk";
 import { Roster } from "./components/roster";
@@ -16,6 +15,10 @@ export const DetailsTeam = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const { team } = useSelector((state: AppStateType) => state.teams);
+  const { playersCount } = useSelector(
+      (state: AppStateType) => state.players
+  );
+
   const {
     id,
     name,
@@ -29,12 +32,15 @@ export const DetailsTeam = () => {
 
   useEffect(() => {
     dispatch(getTeam({ id: +teamID }));
-    dispatch(getPlayers());
+    dispatch(getPlayers({
+      currentPage:1,
+      pageSize: playersCount
+    }));
   }, [teamID, dispatch]);
 
   const onDeleteTeam = async () => {
     await dispatch(deleteTeam({ id }));
-    swal("Команда удалена!", "", "success");
+
     history.push("/teams");
   };
 

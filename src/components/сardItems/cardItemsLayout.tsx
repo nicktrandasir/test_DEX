@@ -16,6 +16,11 @@ interface IProps {
   teams?: ITeam[];
   onAddPlayer: () => void;
   teamsSize?: boolean;
+  itemsCount: number;
+  currentPage: number;
+  pageSize: number;
+  onPageChanged: (selected: any)=> void;
+  pageSizeChange: (value: any)=> void;
 }
 
 export const CardItemsLayout: FC<IProps> = ({
@@ -24,6 +29,11 @@ export const CardItemsLayout: FC<IProps> = ({
   teams,
   onAddPlayer,
   teamsSize,
+  itemsCount,
+  currentPage,
+  pageSize,
+  onPageChanged,
+                                              pageSizeChange,
 }) => {
   const optionsDivision = teams?.map((team) => {
     return { label: team.name, value: team.id };
@@ -71,7 +81,13 @@ export const CardItemsLayout: FC<IProps> = ({
         )}
 
         <ThirdRow>
-          <PaginationComponent />
+          <PaginationComponent
+            itemsCount={itemsCount}
+            currentPage={currentPage}
+            pageSize={pageSize}
+            pageSizeChange={pageSizeChange}
+            onPageChanged={onPageChanged}
+          />
         </ThirdRow>
       </Content>
     </HeaderSidebarLayout>
