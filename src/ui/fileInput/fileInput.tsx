@@ -68,6 +68,7 @@ export const FileInput: FC<IProps> = ({
 
 const StyledLabel = styled.label`
   display: grid;
+  position: relative;
   justify-content: center;
   align-items: center;
   width: 336px;
@@ -87,11 +88,9 @@ const StyledLabel = styled.label`
 const DefaultPicture = styled.img`
   position: absolute;
   z-index: 1;
-  padding-top: 86px;
   padding-left: 126px;
 
-  @media screen and (${maxW.ssm}) {
-    padding-top: 50px;
+  @media screen and (${maxW.ssm}) {    
     padding-left: 70px;
     width: 41px;
   }
@@ -99,11 +98,13 @@ const DefaultPicture = styled.img`
 
 const AddedPicture = styled.img<{ team?: boolean }>`
   width: ${(props) => (props.team ? `261px` : "inherit")};
+  padding-top: ${(props) => (props.team ? `0` : "7px")};
   max-width: 336px;
   max-height: 261px;
 
   @media screen and (${maxW.ssm}) {
     width: ${(props) => (props.team ? `144px` : "inherit")};
+    padding-top: ${(props) => (props.team ? `0` : "4px")};
     max-width: fit-content;
     max-height: 144px;
   }

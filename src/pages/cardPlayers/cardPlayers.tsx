@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useMemo } from "react";
 import styled from "styled-components";
 import { maxW, theme } from "../../assets/theme/theme";
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink, useHistory } from "react-router-dom";
+import {NavLink, useHistory} from "react-router-dom";
 import { AppStateType } from "../../core/redux/rootReducer";
 import { clearUpdatedPlayer } from "../../modules/players/playersSlice";
 import { getPlayers } from "../../modules/players/playersThunk";
@@ -25,10 +25,11 @@ export const CardPlayers = () => {
     (state: AppStateType) => state.players
   );
 
+
   useEffect(() => {
     dispatch(
       getTeams({
-        currentPage: 1,
+        currentPage:  1,
         pageSize: teamsCount,
       })
     );
