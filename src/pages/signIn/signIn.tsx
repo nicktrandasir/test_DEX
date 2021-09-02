@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { setLogin } from "../../modules/authorization/authorizationThunk";
+import { setLoginThunk } from "../../modules/authorization/authorizationThunk";
 import { AppStateType } from "../../core/redux/rootReducer";
 import { SignLayout } from "../../components/sign/signLayout";
 import { CustomInput } from "../../ui/customInput/customInput";
@@ -29,7 +29,7 @@ export const SignIn = () => {
     login: string;
     password: string;
   }) => {
-    await dispatch(setLogin({ login, password }));
+    await dispatch(setLoginThunk({ login, password }));
   };
 
   useEffect(() => {
@@ -37,36 +37,34 @@ export const SignIn = () => {
     //eslint-disable-next-line
   }, [isAuth]);
 
-
-
   return (
-      <SignLayout onSubmit={handleSubmit(onSubmit)}>
-        <FormGroup>
-          <StyledLabel>Login</StyledLabel>
-          <CustomInput
-            required="Required"
-            type={"login"}
-            name={"login"}
-            errors={errors}
-            register={register}
-          />
-        </FormGroup>
-        <FormGroup>
-          <StyledLabel>Password</StyledLabel>
+    <SignLayout onSubmit={handleSubmit(onSubmit)}>
+      <FormGroup>
+        <StyledLabel>Login</StyledLabel>
+        <CustomInput
+          required="Required"
+          type={"login"}
+          name={"login"}
+          errors={errors}
+          register={register}
+        />
+      </FormGroup>
+      <FormGroup>
+        <StyledLabel>Password</StyledLabel>
 
-          <HideShowEye
-            src={isRevealPwd ? eyeOpened : eyeClosed}
-            onClick={() => setIsRevealPwd((prevState) => !prevState)}
-          />
-          <CustomInput
-            required="Required"
-            type={isRevealPwd ? "text" : "password"}
-            name={"password"}
-            errors={errors}
-            register={register}
-          />
-        </FormGroup>
-      </SignLayout>
+        <HideShowEye
+          src={isRevealPwd ? eyeOpened : eyeClosed}
+          onClick={() => setIsRevealPwd((prevState) => !prevState)}
+        />
+        <CustomInput
+          required="Required"
+          type={isRevealPwd ? "text" : "password"}
+          name={"password"}
+          errors={errors}
+          register={register}
+        />
+      </FormGroup>
+    </SignLayout>
   );
 };
 const FormGroup = styled.form`

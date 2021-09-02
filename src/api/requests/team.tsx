@@ -7,9 +7,13 @@ import {
 } from "../dto/ITeam";
 
 export const teams = {
-  getTeams: (currentPage = 1, pageSize = 6): Promise<IPage<ITeam>> => {
+  getTeams: (
+    currentPage = 1,
+    pageSize = 6,
+    searchName = ""
+  ): Promise<IPage<ITeam>> => {
     return BaseRequest.get(
-      `/Team/GetTeams?Page=${currentPage}&PageSize=${pageSize}`,
+      `/Team/GetTeams?Page=${currentPage}&PageSize=${pageSize}&Name=${searchName}`,
       {
         headers: {
           Authorization: `Bearer ` + localStorage.token,

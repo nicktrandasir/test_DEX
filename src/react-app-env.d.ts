@@ -1,6 +1,6 @@
 /// <reference types="react-scripts" />
 interface EventTarget {
-    value: any;
+  value: any;
 }
 
-declare module '@sweetalert/with-react'
+declare module "@sweetalert/with-react";

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from "react";
+import React, { ChangeEvent, useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { maxW, theme } from "../../assets/theme/theme";
@@ -6,8 +6,11 @@ import { NavLink, useHistory } from "react-router-dom";
 import { AppStateType } from "../../core/redux/rootReducer";
 import { ITeam } from "../../api/dto/ITeam";
 import { CardItemsLayout } from "../../components/сardItems/cardItemsLayout";
-import { clearUpdatedTeam } from "../../modules/teams/teamsSlice";
-import { getTeams } from "../../modules/teams/teamsThunk";
+import {
+  clearUpdatedTeam,
+  setSearchTeam,
+} from "../../modules/teams/teamsSlice";
+import { getTeamsThunk } from "../../modules/teams/teamsThunk";
 import { useCallback } from "react";
 
 export const CardTeams = () => {
@@ -22,42 +25,59 @@ export const CardTeams = () => {
     history.push("/addUpdateTeam");
   };
 
-
-
   useEffect(() => {
     dispatch(
-      getTeams({
+      getTeamsThunk({
         currentPage: 1,
         pageSize: 6,
+        searchName: "",
       })
     );
     //eslint-disable-next-line
   }, []);
 
-  const pageSizeChange = useCallback(
+  // ----------------------Размер страницы для селекта--------------------------------------------------------------
+  const onPageSizeChange = useCallback(
     (e) => {
       dispatch(
-        getTeams({
+        getTeamsThunk({
           currentPage: 1,
           pageSize: e.value,
+          searchName: "",
         })
       );
     },
-    [dispatch, pageSize]
+    [dispatch]
   );
 
+  // ----------------------Изменение страницы для пагинации---------------------------------------------------------
   const onPageChanged = useCallback(
     ({ selected }) => {
       dispatch(
-        getTeams({
+        getTeamsThunk({
           currentPage: selected + 1,
           pageSize,
+          searchName: "",
         })
       );
     },
     [dispatch, pageSize]
   );
 
+  // ----------------------Поиск------------------------------------------------------------------------------------
+  const onSearch = useCallback(
+    async (e: ChangeEvent<HTMLInputElement>) => {
+      dispatch(setSearchTeam(e.target.value));
+      dispatch(
+        getTeamsThunk({
+          currentPage: 1,
+          pageSize,
+          searchName: e.target.value,
+        })
+      );
+    },
+    [dispatch, pageSize]
+  );
 
   const allTeams = useMemo(
     () =>
@@ -85,13 +105,14 @@ export const CardTeams = () => {
   return (
     <CardItemsLayout
       items={teams}
-      onAddPlayer={onAddTeam}
+      onAddItem={onAddTeam}
       teamsSize
       itemsCount={teamsCount}
       currentPage={currentPage}
       pageSize={pageSize}
       onPageChanged={onPageChanged}
-      pageSizeChange={pageSizeChange}
+      onPageSizeChange={onPageSizeChange}
+      onSearch={onSearch}
     >
       <CardItemsStyle>{allTeams}</CardItemsStyle>
     </CardItemsLayout>

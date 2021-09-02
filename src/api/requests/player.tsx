@@ -1,19 +1,29 @@
 import { BaseRequest } from "../baseRequest";
 import {
-  IAddPlayerRequest, IPage,
+  IAddPlayerRequest,
+  IPage,
   IPlayer,
   IUpdatePlayerRequest,
 } from "../dto/IPlayer";
 
 export const players = {
   getPlayers: (
-      currentPage = 1,
-      pageSize = 6): Promise<IPage<IPlayer>> => {
-    return BaseRequest.get(`/Player/GetPlayers?Page=${currentPage}&PageSize=${pageSize}`, {
-      headers: {
-        Authorization: `Bearer ` + localStorage.token,
-      },
-    }).then((response) => {
+    currentPage = 1,
+    pageSize = 6,
+    searchName = "",
+    teamIds: { value?: string; label?: string }[]
+  ): Promise<IPage<IPlayer>> => {
+    const teamsId =
+      teamIds && teamIds.map((teamId) => `teamIds=${teamId}`).join("&");
+
+    return BaseRequest.get(
+      `/Player/GetPlayers?Page=${currentPage}&${teamsId}&PageSize=${pageSize}&Name=${searchName}`,
+      {
+        headers: {
+          Authorization: `Bearer ` + localStorage.token,
+        },
+      }
+    ).then((response) => {
       return response.data;
     });
   },

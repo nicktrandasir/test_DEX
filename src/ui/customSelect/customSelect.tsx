@@ -2,6 +2,7 @@ import React from "react";
 import Select from "react-select";
 import { MenuPlacement } from "react-select/src/types";
 import { theme } from "../../assets/theme/theme";
+import { ValueContainer } from "./components/multiLabelContainer";
 
 export const CustomSelect = ({
   options,
@@ -24,7 +25,6 @@ export const CustomSelect = ({
   errors?: string;
   pageCount?: boolean;
 }) => {
-
   const StyleForSelect = {
     container: (styles: any) => {
       return {
@@ -44,7 +44,7 @@ export const CustomSelect = ({
     control: (styles: any, state: any) => {
       return {
         ...styles,
-
+        dispatch: "grid",
         height: "100%",
         boxShadow: 0,
         border: state.isMulti
@@ -113,6 +113,7 @@ export const CustomSelect = ({
       return {
         ...styles,
         backgroundColor: `${theme.red}`,
+        height: "24px",
         borderRadius: "4px",
         color: `${theme.white}`,
         lineHeight: "19px",
@@ -144,9 +145,12 @@ export const CustomSelect = ({
     option: (styles: any, state: any) => ({
       ...styles,
       display: "grid",
+      height: "37px",
       borderBottom: `0.5px solid ${theme.lightestGrey}`,
       backgroundColor: state.isSelected ? `${theme.darkRed}` : `${theme.white}`,
       color: `${theme.lightGrey}`,
+      alignContent: "center",
+
       ":last-child": {
         border: "none",
       },
@@ -177,6 +181,7 @@ export const CustomSelect = ({
         isClearable={isClearable}
         isSearchable={isSearchable}
         isMulti={isMulti}
+        components={{ ValueContainer }}
       />
     </div>
   );

@@ -3,15 +3,13 @@ import styled from "styled-components";
 import { theme } from "../../assets/theme/theme";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { addTeam, updateTeamThunk } from "../../modules/teams/teamsThunk";
+import { addTeamThunk, updateTeamThunk } from "../../modules/teams/teamsThunk";
 import { useHistory } from "react-router-dom";
 import { AppStateType } from "../../core/redux/rootReducer";
 import { clearUpdatedTeam } from "../../modules/teams/teamsSlice";
 import { CustomInput } from "../../ui/customInput/customInput";
 import { IAddTeam } from "../../api/dto/ITeam";
 import { AddUpdateLayout } from "../../components/addUpdate/addUpdateLayout";
-// @ts-ignore
-import swal from "@sweetalert/with-react";
 
 export const AddUpdateTeam = () => {
   const history = useHistory();
@@ -43,7 +41,7 @@ export const AddUpdateTeam = () => {
 
         history.push("/teams");
       } else {
-        await dispatch(addTeam({ ...data }));
+        await dispatch(addTeamThunk({ ...data }));
 
         history.push("/teams");
       }

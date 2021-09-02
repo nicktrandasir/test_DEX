@@ -9,8 +9,8 @@ import { Button } from "../../ui/button/button";
 
 interface IProps {
   team?: boolean;
-  onSubmit?:  React.FormEventHandler<HTMLFormElement> | undefined;
-  setValue: (ValueType: any, ActionTypes: any) => void,
+  onSubmit?: React.FormEventHandler<HTMLFormElement> | undefined;
+  setValue: (ValueType: any, ActionTypes: any) => void;
   defaultValue?: any;
   onCancel?: () => void;
 }

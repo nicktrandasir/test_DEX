@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { ChangeEvent, FC } from "react";
 import { Search } from "../../ui/search/search";
 import { CustomSelect } from "../../ui/customSelect/customSelect";
 import { Button } from "../../ui/button/button";
@@ -14,26 +14,30 @@ import { HeaderSidebarLayout } from "../headerSidebar/headerSidebarLayout";
 interface IProps {
   items: IPlayer[] | ITeam[];
   teams?: ITeam[];
-  onAddPlayer: () => void;
+  onAddItem: () => void;
   teamsSize?: boolean;
   itemsCount: number;
   currentPage: number;
   pageSize: number;
-  onPageChanged: (selected: any)=> void;
-  pageSizeChange: (value: any)=> void;
+  onPageChanged: (selected: any) => void;
+  onPageSizeChange: (value: any) => void;
+  onSearch: (e: ChangeEvent<HTMLInputElement>) => void;
+  onSelect?: (value: any) => void;
 }
 
 export const CardItemsLayout: FC<IProps> = ({
   children,
   items,
   teams,
-  onAddPlayer,
+  onAddItem,
   teamsSize,
   itemsCount,
   currentPage,
   pageSize,
   onPageChanged,
-                                              pageSizeChange,
+  onPageSizeChange,
+  onSearch,
+  onSelect,
 }) => {
   const optionsDivision = teams?.map((team) => {
     return { label: team.name, value: team.id };
@@ -44,22 +48,21 @@ export const CardItemsLayout: FC<IProps> = ({
       <Content teamsSize={teamsSize}>
         <FirstRow>
           <InputsBlock>
-            <Search />
+            <Search onSearch={onSearch} />
             <BlockForSelect>
-              {teams ? (
+              {!teamsSize && (
                 <CustomSelect
                   isMulti
                   isClearable
                   isSearchable={false}
                   options={optionsDivision}
+                  onChange={onSelect}
                 />
-              ) : (
-                ""
               )}
             </BlockForSelect>
           </InputsBlock>
           <BlockForButton teamsSize={teamsSize}>
-            <Button name="Add +" red onClick={onAddPlayer} />
+            <Button name="Add +" red onClick={onAddItem} />
           </BlockForButton>
         </FirstRow>
 
@@ -85,7 +88,7 @@ export const CardItemsLayout: FC<IProps> = ({
             itemsCount={itemsCount}
             currentPage={currentPage}
             pageSize={pageSize}
-            pageSizeChange={pageSizeChange}
+            onPageSizeChange={onPageSizeChange}
             onPageChanged={onPageChanged}
           />
         </ThirdRow>

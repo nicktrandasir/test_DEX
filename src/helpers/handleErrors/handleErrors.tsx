@@ -1,7 +1,7 @@
 import React from "react";
 import swal from "@sweetalert/with-react";
 
-export const HandleErrors = (error:  any) => {
+export const HandleErrors = (error: any) => {
   const message = error?.message;
   return (
     <>
@@ -21,7 +21,7 @@ export const HandleErrors = (error:  any) => {
         ),
         timer: 2500,
         buttons: false,
-        className: "warningAlert"
+        className: "warningAlert",
       })}
     </>
   );

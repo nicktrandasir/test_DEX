@@ -1,12 +1,18 @@
 import React from "react";
+import { FC } from "react";
+import { ChangeEvent } from "react";
 import styled from "styled-components";
 import { maxW, theme } from "../../assets/theme/theme";
 import searchIcon from "./../../assets/icon/search.svg";
 
-export const Search = () => {
+interface IProps {
+  onSearch: (e: ChangeEvent<HTMLInputElement>) => void;
+}
+
+export const Search: FC<IProps> = ({ onSearch }) => {
   return (
     <SearchStyle>
-      <StyledSearch type="search" placeholder="Search..." />
+      <StyledSearch type="search" placeholder="Search..." onChange={onSearch} />
     </SearchStyle>
   );
 };

@@ -4,7 +4,6 @@ import {
   IRegistrationRequest,
 } from "../dto/IAuthorization";
 import { BaseRequest } from "../baseRequest";
-import React from "react";
 
 export const auth = {
   register: ({

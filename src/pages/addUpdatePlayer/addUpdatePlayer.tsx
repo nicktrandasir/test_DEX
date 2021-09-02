@@ -5,20 +5,18 @@ import { maxW, theme } from "../../assets/theme/theme";
 import "react-datepicker/dist/react-datepicker.css";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  addPlayer,
-  getPlayersPositions,
+  addPlayerThunk,
+  getPlayersPositionsThunk,
   updatePlayerThunk,
 } from "../../modules/players/playersThunk";
 import { useHistory } from "react-router-dom";
 import { AppStateType } from "../../core/redux/rootReducer";
-
-
 import { clearUpdatedPlayer } from "../../modules/players/playersSlice";
 import { CustomInput } from "../../ui/customInput/customInput";
 import { CustomSelect } from "../../ui/customSelect/customSelect";
 import { IUpdatePlayerRequest } from "../../api/dto/IPlayer";
 import { AddUpdateLayout } from "../../components/addUpdate/addUpdateLayout";
-import { getTeams } from "../../modules/teams/teamsThunk";
+import { getTeamsThunk } from "../../modules/teams/teamsThunk";
 
 export const AddUpdatePlayer = () => {
   const history = useHistory();
@@ -36,11 +34,14 @@ export const AddUpdatePlayer = () => {
   } = useForm();
 
   useEffect(() => {
-    dispatch(getTeams({
-      currentPage:1,
-      pageSize: 3
-    }));
-    dispatch(getPlayersPositions());
+    dispatch(
+      getTeamsThunk({
+        currentPage: 1,
+        pageSize: 6,
+        searchName: "",
+      })
+    );
+    dispatch(getPlayersPositionsThunk());
     //eslint-disable-next-line
   }, []);
 
@@ -77,12 +78,11 @@ export const AddUpdatePlayer = () => {
         history.push("/players");
       } else {
         dispatch(
-          addPlayer({
+          addPlayerThunk({
             ...data,
           })
         );
         history.push("/players");
-
       }
     },
     [dispatch, history, updatedPlayer]

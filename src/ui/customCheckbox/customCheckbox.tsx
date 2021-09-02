@@ -11,11 +11,14 @@ interface IProps {
 }
 
 export const Checkbox: FC<IProps> = ({ register, errors, name, required }) => {
-
-    const error = errors[name];
+  const error = errors[name];
   return (
     <div>
-      <CheckboxStyle type="checkbox" {...register(name, { required })} error={error} />
+      <CheckboxStyle
+        type="checkbox"
+        {...register(name, { required })}
+        error={error}
+      />
       <AgreementText error={error}>I accept the agreement</AgreementText>
       {errors[name] && errors[name].type === "required" && (
         <div style={{ color: `${theme.lightestRed}` }}>
@@ -28,7 +31,7 @@ export const Checkbox: FC<IProps> = ({ register, errors, name, required }) => {
   );
 };
 
-const CheckboxStyle = styled.input<{error?: string}>`
+const CheckboxStyle = styled.input<{ error?: string }>`
   position: relative;
   height: 12px;
   width: 12px;
@@ -42,7 +45,7 @@ const CheckboxStyle = styled.input<{error?: string}>`
   border-radius: 2px;
 
   border: ${(props) =>
-          props.error ? `1px solid ${theme.lightestRed}` : `1px solid ${theme.grey}`};
+    props.error ? `1px solid ${theme.lightestRed}` : `1px solid ${theme.grey}`};
   appearance: none;
   cursor: pointer;
 
@@ -81,9 +84,8 @@ const CheckboxStyle = styled.input<{error?: string}>`
   }
 `;
 
-const AgreementText = styled.span<{error?: string}>`
-  color: ${(props) =>
-          props.error ? `${theme.lightestRed}` : `${theme.grey}`};
+const AgreementText = styled.span<{ error?: string }>`
+  color: ${(props) => (props.error ? `${theme.lightestRed}` : `${theme.grey}`)};
 `;
 
 const ValidationMessage = styled.p`

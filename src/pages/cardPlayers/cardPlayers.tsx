@@ -1,72 +1,133 @@
-import React, { useCallback, useEffect, useMemo } from "react";
+import React, { ChangeEvent, useCallback, useEffect, useMemo } from "react";
 import styled from "styled-components";
 import { maxW, theme } from "../../assets/theme/theme";
 import { useDispatch, useSelector } from "react-redux";
-import {NavLink, useHistory} from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import { AppStateType } from "../../core/redux/rootReducer";
-import { clearUpdatedPlayer } from "../../modules/players/playersSlice";
-import { getPlayers } from "../../modules/players/playersThunk";
-import { getTeams } from "../../modules/teams/teamsThunk";
+import {
+  clearUpdatedPlayer,
+  setSearchPlayer,
+  setSelectedTeam,
+} from "../../modules/players/playersSlice";
+import { getPlayersThunk } from "../../modules/players/playersThunk";
+import { getTeamsThunk } from "../../modules/teams/teamsThunk";
 import { CardItemsLayout } from "../../components/сardItems/cardItemsLayout";
 
 export const CardPlayers = () => {
   const dispatch = useDispatch();
   const history = useHistory();
+  const { teams, teamsCount } = useSelector(
+    (state: AppStateType) => state.teams
+  );
+  const {
+    players,
+    playersCount,
+    pageSize,
+    currentPage,
+    selectedTeams,
+    searchPlayer,
+  } = useSelector((state: AppStateType) => state.players);
+
+  const selectTeams: any = selectedTeams && selectedTeams.map((team) => team);
 
   const onAddPlayer = () => {
     dispatch(clearUpdatedPlayer());
     history.push("/addUpdatePlayer");
   };
 
-  const { teams, teamsCount } = useSelector(
-    (state: AppStateType) => state.teams
-  );
-  const { players, playersCount, pageSize, currentPage } = useSelector(
-    (state: AppStateType) => state.players
-  );
-
-
   useEffect(() => {
     dispatch(
-      getTeams({
-        currentPage:  1,
+      getTeamsThunk({
+        currentPage: 1,
         pageSize: teamsCount,
+        searchName: "",
       })
     );
     dispatch(
-      getPlayers({
+      getPlayersThunk({
         currentPage: 1,
         pageSize: 6,
+        searchName: "",
+        teamIds: [],
       })
     );
     //eslint-disable-next-line
   }, []);
 
-  const pageSizeChange = useCallback(
+  // ----------------------Размер страницы для селекта--------------------------------------------------------------
+  const onPageSizeChange = useCallback(
     (e) => {
       dispatch(
-        getPlayers({
+        getPlayersThunk({
           currentPage: 1,
           pageSize: e.value,
+          searchName: searchPlayer || "",
+          teamIds: selectTeams,
         })
       );
     },
-    [dispatch, pageSize]
+    [dispatch, selectTeams, searchPlayer]
   );
 
+  // ----------------------Изменение страницы для пагинации---------------------------------------------------------
+  const onPageChanged = useCallback(
+    ({ selected }) => {
+      dispatch(
+        getPlayersThunk({
+          currentPage: selected + 1,
+          pageSize,
+          searchName: searchPlayer || "",
+          teamIds: selectTeams,
+        })
+      );
+    },
+    [dispatch, pageSize, selectTeams, searchPlayer]
+  );
 
-    const onPageChanged = useCallback(
-        ({ selected }) => {
-            dispatch(
-                getPlayers({
-                    currentPage: selected + 1,
-                    pageSize,
-                })
-            );
-        },
-        [dispatch, pageSize]
-    );
+  // ----------------------Поиск------------------------------------------------------------------------------------
+  const onSearch = useCallback(
+    async (e: ChangeEvent<HTMLInputElement>) => {
+      const selectTeams: any =
+        selectedTeams && selectedTeams.map((team) => team);
+      dispatch(setSearchPlayer(e.target.value));
+      dispatch(
+        getPlayersThunk({
+          currentPage: 1,
+          pageSize,
+          searchName: e.target.value,
+          teamIds: selectTeams,
+        })
+      );
+    },
+    [dispatch, pageSize, selectedTeams]
+  );
 
+  // ----------------------Мультиселект------------------------------------------------------------------------------
+  const onSelect = useCallback(
+    async (values) => {
+      dispatch(
+        getTeamsThunk({
+          currentPage: 1,
+          pageSize: 25,
+          searchName: values?.target?.value || "",
+        })
+      );
+      const selectTeamId =
+        values?.length && values.map((item: any) => item.value);
+      values?.target?.value === undefined &&
+        (await dispatch(setSelectedTeam(selectTeamId)));
+      values?.target?.value === undefined &&
+        dispatch(
+          getPlayersThunk({
+            currentPage: 1,
+            pageSize,
+            searchName: searchPlayer || "",
+            teamIds: selectTeamId,
+          })
+        );
+    },
+    [dispatch, pageSize, searchPlayer]
+  );
 
   const allPlayers = useMemo(
     () =>
@@ -102,12 +163,14 @@ export const CardPlayers = () => {
     <CardItemsLayout
       items={players}
       teams={teams}
-      onAddPlayer={onAddPlayer}
+      onAddItem={onAddPlayer}
       itemsCount={playersCount}
       currentPage={currentPage}
       pageSize={pageSize}
       onPageChanged={onPageChanged}
-      pageSizeChange={pageSizeChange}
+      onPageSizeChange={onPageSizeChange}
+      onSearch={onSearch}
+      onSelect={onSelect}
     >
       <CardItemsStyle>{allPlayers}</CardItemsStyle>
     </CardItemsLayout>

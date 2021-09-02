@@ -18,11 +18,12 @@ export interface IUpdateTeamRequest {
 export interface ITeams {
   loaded: boolean;
   teams: ITeam[];
-  team: ITeam ;
+  team: ITeam;
   updatedTeam?: ITeam | null;
   teamsCount: number;
   currentPage: number;
   pageSize: number;
+  searchTeam: string;
 }
 
 export interface ITeam {
@@ -45,12 +46,12 @@ export interface IAddTeam {
 export interface IGetTeamsRequest {
   currentPage: number;
   pageSize: number;
+  searchName: string;
 }
 
-
 export interface IPage<T> {
-  data: T,
-  count: number,
-  page: number,
-  size: number
+  data: T;
+  count: number;
+  page: number;
+  size: number;
 }

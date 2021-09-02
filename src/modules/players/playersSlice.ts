@@ -1,10 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
-  addPlayer,
-  deletePlayer,
-  getPlayer,
-  getPlayers,
-  getPlayersPositions,
+  addPlayerThunk,
+  deletePlayerThunk,
+  getPlayerThunk,
+  getPlayersThunk,
+  getPlayersPositionsThunk,
   updatePlayerThunk,
 } from "./playersThunk";
 import { IPlayer, IPlayers } from "../../api/dto/IPlayer";
@@ -19,6 +19,8 @@ const initialState: IPlayers = {
   playersCount: 0,
   currentPage: 1,
   pageSize: 6,
+  searchPlayer: "",
+  selectedTeams: [],
 };
 
 export const playersSlice = createSlice({
@@ -31,53 +33,59 @@ export const playersSlice = createSlice({
     clearUpdatedPlayer: (state) => {
       state.updatedPlayer = null;
     },
+    setSearchPlayer: (state, { payload }) => {
+      state.searchPlayer = payload;
+    },
+    setSelectedTeam: (state, { payload }) => {
+      state.selectedTeams = payload;
+    },
   },
   extraReducers: {
-    [getPlayersPositions.pending.type]: (state) => {
+    [getPlayersPositionsThunk.pending.type]: (state) => {
       state.loaded = false;
     },
-    [getPlayersPositions.fulfilled.type]: (state, { payload }) => {
+    [getPlayersPositionsThunk.fulfilled.type]: (state, { payload }) => {
       state.positions = payload;
     },
-    [getPlayersPositions.rejected.type]: (state, {error}) => {
+    [getPlayersPositionsThunk.rejected.type]: (state, { error }) => {
       state.loaded = false;
       HandleErrors(error);
     },
 
-    [getPlayers.pending.type]: (state) => {
+    [getPlayersThunk.pending.type]: (state) => {
       state.loaded = false;
     },
-    [getPlayers.fulfilled.type]: (state, { payload }) => {
+    [getPlayersThunk.fulfilled.type]: (state, { payload }) => {
       state.loaded = true;
       state.players = payload.data;
       state.playersCount = payload.count;
       state.currentPage = payload.page;
       state.pageSize = payload.size;
     },
-    [getPlayers.rejected.type]: (state, {error}) => {
+    [getPlayersThunk.rejected.type]: (state, { error }) => {
       state.loaded = false;
       HandleErrors(error);
     },
 
-    [getPlayer.pending.type]: (state) => {
+    [getPlayerThunk.pending.type]: (state) => {
       state.loaded = false;
     },
-    [getPlayer.fulfilled.type]: (state, { payload }) => {
+    [getPlayerThunk.fulfilled.type]: (state, { payload }) => {
       state.loaded = true;
       state.player = payload;
     },
-    [getPlayer.rejected.type]: (state, {error}) => {
+    [getPlayerThunk.rejected.type]: (state, { error }) => {
       state.loaded = false;
       HandleErrors(error);
     },
 
-    [addPlayer.pending.type]: (state) => {
+    [addPlayerThunk.pending.type]: (state) => {
       state.loaded = true;
     },
-    [addPlayer.fulfilled.type]: (state) => {
+    [addPlayerThunk.fulfilled.type]: (state) => {
       state.loaded = false;
     },
-    [addPlayer.rejected.type]: (state, {error}) => {
+    [addPlayerThunk.rejected.type]: (state, { error }) => {
       state.loaded = false;
       HandleErrors(error);
     },
@@ -88,22 +96,27 @@ export const playersSlice = createSlice({
     [updatePlayerThunk.fulfilled.type]: (state) => {
       state.loaded = false;
     },
-    [updatePlayerThunk.rejected.type]: (state, {error}) => {
+    [updatePlayerThunk.rejected.type]: (state, { error }) => {
       state.loaded = false;
       HandleErrors(error);
     },
 
-    [deletePlayer.pending.type]: (state) => {
+    [deletePlayerThunk.pending.type]: (state) => {
       state.loaded = true;
     },
-    [deletePlayer.fulfilled.type]: (state) => {
+    [deletePlayerThunk.fulfilled.type]: (state) => {
       state.loaded = false;
     },
-    [deletePlayer.rejected.type]: (state, {error}) => {
+    [deletePlayerThunk.rejected.type]: (state, { error }) => {
       state.loaded = false;
       HandleErrors(error);
-    }
-  }
+    },
+  },
 });
 
-export const { playerForUpdate, clearUpdatedPlayer } = playersSlice.actions;
+export const {
+  playerForUpdate,
+  clearUpdatedPlayer,
+  setSearchPlayer,
+  setSelectedTeam,
+} = playersSlice.actions;

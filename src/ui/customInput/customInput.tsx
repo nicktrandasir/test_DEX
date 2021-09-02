@@ -9,7 +9,7 @@ interface IProps {
   name: string;
   placeholder?: string;
   errors?: object | any;
-  register:  UseFormRegister<FieldValues> | any;
+  register: UseFormRegister<FieldValues> | any;
   defaultValue?: string | number | object;
   smallSize?: boolean;
   date?: boolean;

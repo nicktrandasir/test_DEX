@@ -4,10 +4,10 @@ import styled from "styled-components";
 import { maxW, minW, theme } from "../../assets/theme/theme";
 import profile from "../../assets/icon/profile.svg";
 import SignOutIcon from "../../assets/icon/signOut (2).svg";
-import {NavLink, useHistory} from "react-router-dom";
-import {logout} from "../../modules/authorization/authorizationSlice";
-import {useDispatch, useSelector} from "react-redux";
-import {AppStateType} from "../../core/redux/rootReducer";
+import { NavLink, useHistory } from "react-router-dom";
+import { logout } from "../../modules/authorization/authorizationSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { AppStateType } from "../../core/redux/rootReducer";
 
 export const Burger = () => {
   const history = useHistory();

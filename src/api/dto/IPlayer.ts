@@ -27,9 +27,11 @@ export interface IPlayers {
   player: IPlayer;
   updatedPlayer: IPlayer | null;
   positions: Array<string>;
-  playersCount: number,
-  currentPage: number,
-  pageSize: number,
+  playersCount: number;
+  currentPage: number;
+  pageSize: number;
+  searchPlayer: string;
+  selectedTeams: { value?: string; label?: string }[];
 }
 
 export interface IPlayer {
@@ -58,6 +60,8 @@ export interface IAddPlayer {
 export interface IGetPlayersRequest {
   currentPage: number;
   pageSize: number;
+  searchName: string;
+  teamIds: { value?: string; label?: string }[];
 }
 export interface IPage<T> {
   data: T;

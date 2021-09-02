@@ -3,10 +3,10 @@ import styled from "styled-components";
 import { useHistory, useParams } from "react-router-dom";
 import { maxW, theme } from "../../assets/theme/theme";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteTeam, getTeam } from "../../modules/teams/teamsThunk";
+import { deleteTeamThunk, getTeamThunk } from "../../modules/teams/teamsThunk";
 import { AppStateType } from "../../core/redux/rootReducer";
 import { teamForUpdate } from "../../modules/teams/teamsSlice";
-import { getPlayers } from "../../modules/players/playersThunk";
+import { getPlayersThunk } from "../../modules/players/playersThunk";
 import { Roster } from "./components/roster";
 import { DetailsLayout } from "../../components/details/detailsLayout";
 import { ITeam } from "../../api/dto/ITeam";
@@ -15,9 +15,10 @@ export const DetailsTeam = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const { team } = useSelector((state: AppStateType) => state.teams);
-  const { playersCount } = useSelector(
-      (state: AppStateType) => state.players
+  const { playersCount, selectedTeams } = useSelector(
+    (state: AppStateType) => state.players
   );
+  const selectTeams: any = selectedTeams && selectedTeams.map((team) => team);
 
   const {
     id,
@@ -26,20 +27,24 @@ export const DetailsTeam = () => {
     conference,
     foundationYear,
     imageUrl,
-  }: ITeam | any  = team || {};
+  }: ITeam | any = team || {};
 
   const { teamID } = useParams<{ teamID: string }>();
 
   useEffect(() => {
-    dispatch(getTeam({ id: +teamID }));
-    dispatch(getPlayers({
-      currentPage:1,
-      pageSize: playersCount
-    }));
-  }, [teamID, dispatch]);
+    dispatch(getTeamThunk({ id: +teamID }));
+    dispatch(
+      getPlayersThunk({
+        currentPage: 1,
+        pageSize: playersCount,
+        searchName: "",
+        teamIds: selectTeams,
+      })
+    );
+  }, [teamID, dispatch, playersCount, selectTeams]);
 
   const onDeleteTeam = async () => {
-    await dispatch(deleteTeam({ id }));
+    await dispatch(deleteTeamThunk({ id }));
 
     history.push("/teams");
   };
@@ -48,8 +53,6 @@ export const DetailsTeam = () => {
     dispatch(teamForUpdate());
     history.push("/addUpdateTeam");
   };
-
-
 
   return (
     <DetailsLayout

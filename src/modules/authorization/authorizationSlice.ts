@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { ILogin } from "../../api/dto/IAuthorization";
 import { HandleErrors } from "../../helpers/handleErrors/handleErrors";
-import { setLogin, setRegister } from "./authorizationThunk";
+import { setLoginThunk, setRegisterThunk } from "./authorizationThunk";
 
 const initialState: ILogin = {
   isAuth: localStorage.isAuth || false,
@@ -24,10 +24,10 @@ export const authSlice = createSlice({
     },
   },
   extraReducers: {
-    [setRegister.pending.type]: (state) => {
+    [setRegisterThunk.pending.type]: (state) => {
       state.isFetching = true;
     },
-    [setRegister.fulfilled.type]: (state, { payload }) => {
+    [setRegisterThunk.fulfilled.type]: (state, { payload }) => {
       state.isAuth = true;
       state.name = payload.name;
       state.avatarUrl = payload.avatarUrl;
@@ -38,16 +38,16 @@ export const authSlice = createSlice({
       localStorage.name = payload.name;
       localStorage.avatarUrl = payload.avatarUrl;
     },
-    [setRegister.rejected.type]: (state, {error}) => {
+    [setRegisterThunk.rejected.type]: (state, { error }) => {
       state.isFetching = false;
       state.error = error?.message;
       HandleErrors(error);
     },
 
-    [setLogin.pending.type]: (state) => {
+    [setLoginThunk.pending.type]: (state) => {
       state.isFetching = true;
     },
-    [setLogin.fulfilled.type]: (state, { payload }) => {
+    [setLoginThunk.fulfilled.type]: (state, { payload }) => {
       state.isAuth = true;
       state.name = payload.name;
       state.avatarUrl = payload.avatarUrl;
@@ -58,12 +58,12 @@ export const authSlice = createSlice({
       localStorage.name = payload.name;
       localStorage.avatarUrl = payload.avatarUrl;
     },
-    [setLogin.rejected.type]: (state, {error}) => {
+    [setLoginThunk.rejected.type]: (state, { error }) => {
       state.isFetching = false;
       state.error = error?.message;
       HandleErrors(error);
-    }
-  }
+    },
+  },
 });
 
 export const { logout } = authSlice.actions;

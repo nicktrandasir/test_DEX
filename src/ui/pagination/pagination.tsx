@@ -13,7 +13,7 @@ interface IProps {
   currentPage: number;
   pageSize: number;
   onPageChanged: (selected: any) => void;
-  pageSizeChange?: (value: any) => void;
+  onPageSizeChange?: (value: any) => void;
 }
 
 export const PaginationComponent: FC<IProps> = ({
@@ -21,25 +21,26 @@ export const PaginationComponent: FC<IProps> = ({
   currentPage,
   pageSize,
   onPageChanged,
-  pageSizeChange,
+  onPageSizeChange,
 }) => {
-
-
-
   return (
     <PaginationComponentStyle>
       <StyledPaginateBlock>
-        <ReactPaginate
-          previousLabel={<img src={Previous} alt="Previous" />}
-          nextLabel={<img src={Next} alt="Next" />}
-          activeClassName="active"
-          containerClassName="pagination"
-          forcePage={currentPage ? currentPage - 1 : 0}
-          onPageChange={onPageChanged}
-          pageCount={itemsCount / pageSize}
-          marginPagesDisplayed={1}
-          pageRangeDisplayed={1}
-        />
+        {itemsCount === 0 || itemsCount <= pageSize ? (
+          ""
+        ) : (
+          <ReactPaginate
+            previousLabel={<img src={Previous} alt="Previous" />}
+            nextLabel={<img src={Next} alt="Next" />}
+            activeClassName="active"
+            containerClassName="pagination"
+            forcePage={currentPage ? currentPage - 1 : 0}
+            onPageChange={onPageChanged}
+            pageCount={itemsCount / pageSize}
+            marginPagesDisplayed={1}
+            pageRangeDisplayed={1}
+          />
+        )}
       </StyledPaginateBlock>
 
       <PageSize>
@@ -47,7 +48,7 @@ export const PaginationComponent: FC<IProps> = ({
           pageCount
           menuPlacement="top"
           isSearchable={false}
-          onChange={pageSizeChange}
+          onChange={onPageSizeChange}
           defaultValue={pageCountSize[0]}
           options={pageCountSize}
         />

@@ -1,10 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { ITeam, ITeams } from "../../api/dto/ITeam";
 import {
-  addTeam,
-  deleteTeam,
-  getTeam,
-  getTeams,
+  addTeamThunk,
+  deleteTeamThunk,
+  getTeamThunk,
+  getTeamsThunk,
   updateTeamThunk,
 } from "./teamsThunk";
 import { HandleErrors } from "../../helpers/handleErrors/handleErrors";
@@ -17,6 +17,7 @@ const initialState: ITeams = {
   teamsCount: 0,
   currentPage: 1,
   pageSize: 6,
+  searchTeam: "",
 };
 
 export const teamsSlice = createSlice({
@@ -29,42 +30,45 @@ export const teamsSlice = createSlice({
     clearUpdatedTeam: (state) => {
       state.updatedTeam = null;
     },
+    setSearchTeam: (state, { payload }) => {
+      state.searchTeam = payload;
+    },
   },
   extraReducers: {
-    [getTeams.pending.type]: (state) => {
+    [getTeamsThunk.pending.type]: (state) => {
       state.loaded = false;
     },
-    [getTeams.fulfilled.type]: (state, { payload }) => {
+    [getTeamsThunk.fulfilled.type]: (state, { payload }) => {
       state.loaded = true;
       state.teams = payload.data;
       state.teamsCount = payload.count;
       state.currentPage = payload.page;
       state.pageSize = payload.size;
     },
-    [getTeams.rejected.type]: (state, {error}) => {
+    [getTeamsThunk.rejected.type]: (state, { error }) => {
       state.loaded = false;
       HandleErrors(error);
     },
 
-    [getTeam.pending.type]: (state) => {
+    [getTeamThunk.pending.type]: (state) => {
       state.loaded = false;
     },
-    [getTeam.fulfilled.type]: (state, { payload }) => {
+    [getTeamThunk.fulfilled.type]: (state, { payload }) => {
       state.loaded = true;
       state.team = payload;
     },
-    [getTeam.rejected.type]: (state, {error}) => {
+    [getTeamThunk.rejected.type]: (state, { error }) => {
       state.loaded = false;
       HandleErrors(error);
     },
 
-    [addTeam.pending.type]: (state) => {
+    [addTeamThunk.pending.type]: (state) => {
       state.loaded = true;
     },
-    [addTeam.fulfilled.type]: (state) => {
+    [addTeamThunk.fulfilled.type]: (state) => {
       state.loaded = false;
     },
-    [addTeam.rejected.type]: (state, {error}) => {
+    [addTeamThunk.rejected.type]: (state, { error }) => {
       state.loaded = false;
       HandleErrors(error);
     },
@@ -75,22 +79,23 @@ export const teamsSlice = createSlice({
     [updateTeamThunk.fulfilled.type]: (state) => {
       state.loaded = false;
     },
-    [updateTeamThunk.rejected.type]: (state, {error}) => {
+    [updateTeamThunk.rejected.type]: (state, { error }) => {
       state.loaded = false;
       HandleErrors(error);
     },
 
-    [deleteTeam.pending.type]: (state) => {
+    [deleteTeamThunk.pending.type]: (state) => {
       state.loaded = true;
     },
-    [deleteTeam.fulfilled.type]: (state) => {
+    [deleteTeamThunk.fulfilled.type]: (state) => {
       state.loaded = false;
     },
-    [deleteTeam.rejected.type]: (state, {error}) => {
+    [deleteTeamThunk.rejected.type]: (state, { error }) => {
       state.loaded = false;
       HandleErrors(error);
-    }
-  }
+    },
+  },
 });
 
-export const { teamForUpdate, clearUpdatedTeam } = teamsSlice.actions;
+export const { teamForUpdate, clearUpdatedTeam, setSearchTeam } =
+  teamsSlice.actions;

@@ -10,21 +10,21 @@ import {
   IUpdatePlayerRequest,
 } from "../../api/dto/IPlayer";
 
-export const getPlayers = createAsyncThunk<IPage<IPlayer>, IGetPlayersRequest>(
-  "player/getPlayers",
-  ({ currentPage, pageSize }) => {
-    return players.getPlayers(currentPage, pageSize);
-  }
-);
+export const getPlayersThunk = createAsyncThunk<
+  IPage<IPlayer>,
+  IGetPlayersRequest
+>("player/getPlayers", ({ currentPage, pageSize, searchName, teamIds }) => {
+  return players.getPlayers(currentPage, pageSize, searchName, teamIds);
+});
 
-export const getPlayer = createAsyncThunk(
+export const getPlayerThunk = createAsyncThunk(
   "player/getPlayer",
   ({ id }: { id: number }) => {
     return players.getPlayer(id);
   }
 );
 
-export const addPlayer = createAsyncThunk<IAddPlayer, IAddPlayerRequest>(
+export const addPlayerThunk = createAsyncThunk<IAddPlayer, IAddPlayerRequest>(
   "player/addUpdatePlayer",
   async ({ ...data }) => {
     const formData = new FormData();
@@ -60,14 +60,14 @@ export const updatePlayerThunk = createAsyncThunk<
   });
 });
 
-export const getPlayersPositions = createAsyncThunk(
+export const getPlayersPositionsThunk = createAsyncThunk(
   "player/getPosition",
   () => {
     return players.getPositions();
   }
 );
 
-export const deletePlayer = createAsyncThunk<IPlayer, { id: number }>(
+export const deletePlayerThunk = createAsyncThunk<IPlayer, { id: number }>(
   "player/deletePlayer",
   ({ id }) => {
     return players.deletePlayer(id);

@@ -19,8 +19,7 @@ export const FileInput: FC<IProps> = ({
 }) => {
   const [img, setImg] = useState<string | null>("");
 
-
-  const handleChange = (e: any ) => {
+  const handleChange = (e: any) => {
     let file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
@@ -90,7 +89,7 @@ const DefaultPicture = styled.img`
   z-index: 1;
   padding-left: 126px;
 
-  @media screen and (${maxW.ssm}) {    
+  @media screen and (${maxW.ssm}) {
     padding-left: 70px;
     width: 41px;
   }

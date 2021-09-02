@@ -11,21 +11,21 @@ import {
   IUpdateTeamRequest,
 } from "../../api/dto/ITeam";
 
-export const getTeams = createAsyncThunk<IPage<ITeam>, IGetTeamsRequest>(
+export const getTeamsThunk = createAsyncThunk<IPage<ITeam>, IGetTeamsRequest>(
   "team/GetTeams",
-  ({ currentPage, pageSize }) => {
-    return teams.getTeams(currentPage, pageSize);
+  ({ currentPage, pageSize, searchName }) => {
+    return teams.getTeams(currentPage, pageSize, searchName);
   }
 );
 
-export const getTeam = createAsyncThunk<ITeam, { id: number }>(
+export const getTeamThunk = createAsyncThunk<ITeam, { id: number }>(
   "Team/Get",
   ({ id }) => {
     return teams.getTeam(id);
   }
 );
 
-export const addTeam = createAsyncThunk<IAddTeam, IAddTeamRequest>(
+export const addTeamThunk = createAsyncThunk<IAddTeam, IAddTeamRequest>(
   "team/addUpdateTeam",
   async ({ ...data }) => {
     const formData = new FormData();
@@ -61,7 +61,7 @@ export const updateTeamThunk = createAsyncThunk<ITeam, IUpdateTeamRequest>(
   }
 );
 
-export const deleteTeam = createAsyncThunk<ITeam, { id: number }>(
+export const deleteTeamThunk = createAsyncThunk<ITeam, { id: number }>(
   "Team/Delete",
   ({ id }) => {
     return teams.deleteTeam(id);

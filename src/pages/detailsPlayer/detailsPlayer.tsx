@@ -2,7 +2,10 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useHistory, useParams } from "react-router-dom";
 import { maxW, theme } from "../../assets/theme/theme";
-import { deletePlayer, getPlayer } from "../../modules/players/playersThunk";
+import {
+  deletePlayerThunk,
+  getPlayerThunk,
+} from "../../modules/players/playersThunk";
 import { useDispatch, useSelector } from "react-redux";
 import { AppStateType } from "../../core/redux/rootReducer";
 import { playerForUpdate } from "../../modules/players/playersSlice";
@@ -26,17 +29,19 @@ export const DetailsPlayer = () => {
   }: IPlayer | any = player || "";
 
   const getAge = (birthDate: number) =>
-    Math.floor((new Date().valueOf() - new Date(birthDate).getTime()) / 3.15576e10);
+    Math.floor(
+      (new Date().valueOf() - new Date(birthDate).getTime()) / 3.15576e10
+    );
   const age = getAge(birthday);
 
   const { playerID } = useParams<{ playerID: string }>();
 
   useEffect(() => {
-    dispatch(getPlayer({ id: +playerID }));
+    dispatch(getPlayerThunk({ id: +playerID }));
   }, [playerID, dispatch]);
 
   const onDeletePlayer = async () => {
-    await dispatch(deletePlayer({ id }));
+    await dispatch(deletePlayerThunk({ id }));
     history.push("/Players");
   };
   const onUpdatePlayer = async () => {
@@ -133,7 +138,7 @@ const DetailsPlayerPhoto = styled.img`
   width: 531px;
   max-width: 100%;
   padding: 0;
-  
+
   @media screen and (${maxW.xl}) {
     width: 430px;
     padding: 48px 0 48px 0;

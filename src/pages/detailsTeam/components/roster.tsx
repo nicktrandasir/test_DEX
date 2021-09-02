@@ -8,8 +8,9 @@ export const Roster = ({ id }: number | any) => {
   const { players } = useSelector((state: AppStateType) => state.players);
 
   const getAge = (birthDate: number) =>
-    Math.floor((new Date().valueOf() - new Date(birthDate).getTime()) / 3.15576e10);
-
+    Math.floor(
+      (new Date().valueOf() - new Date(birthDate).getTime()) / 3.15576e10
+    );
 
   const teamPlayers = useMemo(
     () =>

@@ -18,10 +18,7 @@ export const PrivateRoute = ({ component, ...props }: any) => {
   return <Route {...props} component={finalComponent} />;
 };
 
-
-
 export const routes = [
-
   {
     path: "/teams",
     exact: true,
