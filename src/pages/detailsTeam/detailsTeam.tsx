@@ -41,7 +41,8 @@ export const DetailsTeam = () => {
         teamIds: selectTeams,
       })
     );
-  }, [teamID, dispatch, playersCount, selectTeams]);
+    //eslint-disable-next-line
+  }, []);
 
   const onDeleteTeam = async () => {
     await dispatch(deleteTeamThunk({ id }));
