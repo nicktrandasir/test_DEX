@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import {useDispatch, useSelector} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setRegisterThunk } from "../../modules/authorization/authorizationThunk";
 import { SignLayout } from "../../components/sign/signLayout";
 import { CustomInput } from "../../ui/customInput/customInput";
@@ -9,9 +9,9 @@ import eyeClosed from "../../assets/icon/ClosedEye.svg";
 import { Checkbox } from "../../ui/customCheckbox/customCheckbox";
 import styled from "styled-components";
 import { maxW, theme } from "../../assets/theme/theme";
-import {pathRouts} from "../routes";
-import {useHistory} from "react-router-dom";
-import {AppStateType} from "../../core/redux/rootReducer";
+import { pathRouts } from "../routes";
+import { useHistory } from "react-router-dom";
+import { AppStateType } from "../../core/redux/rootReducer";
 
 export const SignUp = () => {
   const history = useHistory();

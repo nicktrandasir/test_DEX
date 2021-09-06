@@ -1,114 +1,116 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
-import {useHistory, useParams} from "react-router-dom";
-import {maxW, theme} from "../../assets/theme/theme";
+import { useHistory, useParams } from "react-router-dom";
+import { maxW, theme } from "../../assets/theme/theme";
 import {
-    deletePlayerThunk,
-    getPlayerThunk,
+  deletePlayerThunk,
+  getPlayerThunk,
 } from "../../modules/players/playersThunk";
-import {useDispatch, useSelector} from "react-redux";
-import {AppStateType} from "../../core/redux/rootReducer";
-import {playerForUpdate} from "../../modules/players/playersSlice";
-import {DetailsLayout} from "../../components/details/detailsLayout";
-import {BaseUrl} from "../../api/baseRequest";
-import {pathRouts} from "../routes";
+import { useDispatch, useSelector } from "react-redux";
+import { AppStateType } from "../../core/redux/rootReducer";
+import { playerForUpdate } from "../../modules/players/playersSlice";
+import { DetailsLayout } from "../../components/details/detailsLayout";
+import { BaseUrl } from "../../api/baseRequest";
+import { pathRouts } from "../routes";
 
 export const DetailsPlayer = () => {
-    const history = useHistory();
-    const dispatch = useDispatch();
-    const {
-        id,
-        name,
-        avatarUrl,
-        position,
-        weight,
-        height,
-        number,
-        teamName,
-        birthday
-    } = useSelector((state: AppStateType) => state.players.player);
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const {
+    id,
+    name,
+    avatarUrl,
+    position,
+    weight,
+    height,
+    number,
+    teamName,
+    birthday,
+  } = useSelector((state: AppStateType) => state.players.player);
 
-    const getAge = (birthDate: number) =>
-        Math.floor(
-            (new Date().valueOf() - new Date(birthDate).getTime()) / 3.15576e10
-        );
-
-    const {playerId} = useParams<{ playerId: string }>();
-
-    useEffect(() => {
-        dispatch(getPlayerThunk({id: +playerId}));
-    }, [playerId, dispatch]);
-
-    const onDeletePlayer = async () => {
-        await dispatch(deletePlayerThunk({id}));
-        history.push(pathRouts.Players);
-    };
-    const onUpdatePlayer = async () => {
-        await dispatch(playerForUpdate());
-        history.push(pathRouts.AddUpdatePlayer);
-    };
-
-    return (
-        <DetailsLayout
-            onUpdateItem={onUpdatePlayer}
-            onDeleteItem={onDeletePlayer}
-            name={name}
-        >
-            <PlayerInfo>
-                <PhotoToDetails>
-                    <DetailsPlayerPhoto
-                        src={`${BaseUrl}${avatarUrl}`}
-                        alt="Details Photo"
-                    />
-                </PhotoToDetails>
-
-                <InfoToDetails>
-                    <NameAndNumber>
-                        <p>
-                            {name}{" "}
-                            <span style={{color: `${theme.lightRed}`}}>#{number}</span>
-                        </p>
-                    </NameAndNumber>
-
-                    <DivForDetails>
-                        <FirstColumn>
-                            <div>
-                                <MainTitle>Position</MainTitle>
-                                <SecondaryTitle>{position}</SecondaryTitle>
-                            </div>
-                            <div>
-                                <MainTitle>Height</MainTitle>
-                                <SecondaryTitle>{height} cm</SecondaryTitle>
-                            </div>
-                            <div>
-                                <MainTitle>Age</MainTitle>
-                                <SecondaryTitle>{getAge(birthday)}</SecondaryTitle>
-                            </div>
-                        </FirstColumn>
-
-                        <SecondColumn>
-                            <div>
-                                <MainTitle>Team</MainTitle>
-                                <SecondaryTitle>{teamName}</SecondaryTitle>
-                            </div>
-                            <div>
-                                <MainTitle>Weight</MainTitle>
-                                <SecondaryTitle>{weight} kg</SecondaryTitle>
-                            </div>
-                        </SecondColumn>
-                    </DivForDetails>
-                </InfoToDetails>
-            </PlayerInfo>
-        </DetailsLayout>
+  const getAge = (birthDate: number) =>
+    Math.floor(
+      (new Date().valueOf() - new Date(birthDate).getTime()) / 3.15576e10
     );
+
+  const { playerId } = useParams<{ playerId: string }>();
+
+  useEffect(() => {
+    dispatch(getPlayerThunk({ id: +playerId }));
+  }, [playerId, dispatch]);
+
+  const onDeletePlayer = async () => {
+    await dispatch(deletePlayerThunk({ id }));
+    history.push(pathRouts.Players);
+  };
+  const onUpdatePlayer = async () => {
+    await dispatch(playerForUpdate());
+    history.push(pathRouts.AddUpdatePlayer);
+  };
+
+  return (
+    <DetailsLayout
+      onUpdateItem={onUpdatePlayer}
+      onDeleteItem={onDeletePlayer}
+      name={name}
+    >
+      <PlayerInfo>
+        <PhotoToDetails>
+          <DetailsPlayerPhoto
+            src={`${BaseUrl}${avatarUrl}`}
+            alt="Details Photo"
+          />
+        </PhotoToDetails>
+
+        <InfoToDetails>
+          <NameAndNumber>
+            <p>
+              {name}{" "}
+              <span style={{ color: `${theme.lightRed}` }}>#{number}</span>
+            </p>
+          </NameAndNumber>
+
+          <DivForDetails>
+            <FirstColumn>
+              <div>
+                <MainTitle>Position</MainTitle>
+                <SecondaryTitle>{position}</SecondaryTitle>
+              </div>
+              <div>
+                <MainTitle>Height</MainTitle>
+                <SecondaryTitle>{height} cm</SecondaryTitle>
+              </div>
+              <div>
+                <MainTitle>Age</MainTitle>
+                <SecondaryTitle>{getAge(birthday)}</SecondaryTitle>
+              </div>
+            </FirstColumn>
+
+            <SecondColumn>
+              <div>
+                <MainTitle>Team</MainTitle>
+                <SecondaryTitle>{teamName}</SecondaryTitle>
+              </div>
+              <div>
+                <MainTitle>Weight</MainTitle>
+                <SecondaryTitle>{weight} kg</SecondaryTitle>
+              </div>
+            </SecondColumn>
+          </DivForDetails>
+        </InfoToDetails>
+      </PlayerInfo>
+    </DetailsLayout>
+  );
 };
 
 const PlayerInfo = styled.div`
   display: grid;
   height: 525px;
-  background: linear-gradient(276.45deg,
-  ${theme.darkGrey1} 0%,
-  ${theme.grey} 100.28%);
+  background: linear-gradient(
+    276.45deg,
+    ${theme.darkGrey1} 0%,
+    ${theme.grey} 100.28%
+  );
   border-radius: 0 0 10px 10px;
   grid-template-columns: auto auto;
 

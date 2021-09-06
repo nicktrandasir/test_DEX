@@ -6,7 +6,7 @@ import SignOutIcon from "../../assets/icon/SignOut.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../modules/authorization/authorizationSlice";
 import { AppStateType } from "../../core/redux/rootReducer";
-import {pathRouts} from "../../pages/routes";
+import { pathRouts } from "../../pages/routes";
 
 export const Sidebar = () => {
   const history = useHistory();

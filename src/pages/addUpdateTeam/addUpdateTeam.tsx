@@ -10,7 +10,7 @@ import { clearUpdatedTeam } from "../../modules/teams/teamsSlice";
 import { CustomInput } from "../../ui/customInput/customInput";
 import { IAddTeam } from "../../api/dto/ITeam";
 import { AddUpdateLayout } from "../../components/addUpdate/addUpdateLayout";
-import {pathRouts} from "../routes";
+import { pathRouts } from "../routes";
 
 export const AddUpdateTeam = () => {
   const history = useHistory();

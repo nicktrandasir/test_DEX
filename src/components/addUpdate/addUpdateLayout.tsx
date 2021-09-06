@@ -6,7 +6,7 @@ import { maxW, theme } from "../../assets/theme/theme";
 import { HeaderSidebarLayout } from "../headerSidebar/headerSidebarLayout";
 import { FileInput } from "../../ui/fileInput/fileInput";
 import { Button } from "../../ui/button/button";
-import {pathRouts} from "../../pages/routes";
+import { pathRouts } from "../../pages/routes";
 
 interface IProps {
   team?: boolean;

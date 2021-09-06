@@ -17,7 +17,7 @@ import { CustomSelect } from "../../ui/customSelect/customSelect";
 import { IUpdatePlayerRequest } from "../../api/dto/IPlayer";
 import { AddUpdateLayout } from "../../components/addUpdate/addUpdateLayout";
 import { getTeamsThunk } from "../../modules/teams/teamsThunk";
-import {pathRouts} from "../routes";
+import { pathRouts } from "../routes";
 
 export const AddUpdatePlayer = () => {
   const history = useHistory();
@@ -32,9 +32,9 @@ export const AddUpdatePlayer = () => {
     setValue,
     handleSubmit,
     control,
-    formState: { errors }
+    formState: { errors },
   } = useForm();
-// @ts-ignore
+  // @ts-ignore
   useEffect(() => {
     dispatch(
       getTeamsThunk({

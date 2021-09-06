@@ -12,7 +12,7 @@ import {
 } from "../../modules/teams/teamsSlice";
 import { getTeamsThunk } from "../../modules/teams/teamsThunk";
 import { useCallback } from "react";
-import {pathRouts} from "../routes";
+import { pathRouts } from "../routes";
 import { BaseUrl } from "../../api/baseRequest";
 
 export const CardTeams = () => {
@@ -86,10 +86,7 @@ export const CardTeams = () => {
         <CardItem key={team.id}>
           <StyledLink to={pathRouts.DetailsTeam + team.id}>
             <TeamPhotoDiv>
-              <TeamPhoto
-                src={`${BaseUrl}${team.imageUrl}`}
-                alt="Photo"
-              />
+              <TeamPhoto src={`${BaseUrl}${team.imageUrl}`} alt="Photo" />
             </TeamPhotoDiv>
             <ItemInfo>
               <TeamNameTitle> {team.name} </TeamNameTitle>

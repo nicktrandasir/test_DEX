@@ -21,9 +21,7 @@ export const SignIn = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm(
-
-  );
+  } = useForm();
   const dispatch = useDispatch();
   const onSubmit = async ({
     login,

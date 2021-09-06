@@ -8,7 +8,7 @@ import { NavLink, useHistory } from "react-router-dom";
 import { logout } from "../../modules/authorization/authorizationSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { AppStateType } from "../../core/redux/rootReducer";
-import {pathRouts} from "../../pages/routes";
+import { pathRouts } from "../../pages/routes";
 
 export const Burger = () => {
   const history = useHistory();
