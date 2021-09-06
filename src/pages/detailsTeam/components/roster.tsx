@@ -3,6 +3,7 @@ import { maxW, theme } from "../../../assets/theme/theme";
 import { useSelector } from "react-redux";
 import { AppStateType } from "../../../core/redux/rootReducer";
 import styled from "styled-components";
+import { BaseUrl } from "../../../api/baseRequest";
 
 export const Roster = ({ id }: number | any) => {
   const { players } = useSelector((state: AppStateType) => state.players);
@@ -17,12 +18,12 @@ export const Roster = ({ id }: number | any) => {
       players?.map(
         (player) =>
           player.team === id && (
-            <InfoSections>
+            <InfoSections key={player.id}>
               <FirstColumnSection>
                 <div style={{ width: "14px" }}>{player.number}</div>
                 <PlayerInfo>
                   <PhotoPlayerRoster
-                    src={`http://dev.trainee.dex-it.ru${player.avatarUrl}`}
+                    src={`${BaseUrl}${player.avatarUrl}`}
                     alt="miniPhoto"
                   />
                   <NamePosInfo>

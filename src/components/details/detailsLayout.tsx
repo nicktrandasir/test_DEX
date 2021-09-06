@@ -6,6 +6,7 @@ import styled from "styled-components";
 import { maxW, theme } from "../../assets/theme/theme";
 import { HeaderSidebarLayout } from "../headerSidebar/headerSidebarLayout";
 import { FC } from "react";
+import { pathRouts } from "../../pages/routes";
 
 interface IProps {
   team?: boolean;
@@ -28,7 +29,7 @@ export const DetailsLayout: FC<IProps> = ({
           <DetailsTitle>
             <NavLink
               style={{ textDecoration: "none" }}
-              to={team ? "/Teams" : "/Players"}
+              to={team ? pathRouts.Teams : pathRouts.Players}
             >
               <RedTitle>{team ? "Teams" : "Players"}</RedTitle>
             </NavLink>

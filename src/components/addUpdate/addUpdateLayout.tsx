@@ -6,6 +6,7 @@ import { maxW, theme } from "../../assets/theme/theme";
 import { HeaderSidebarLayout } from "../headerSidebar/headerSidebarLayout";
 import { FileInput } from "../../ui/fileInput/fileInput";
 import { Button } from "../../ui/button/button";
+import {pathRouts} from "../../pages/routes";
 
 interface IProps {
   team?: boolean;
@@ -30,7 +31,7 @@ export const AddUpdateLayout: FC<IProps> = ({
           <DetailsTitle>
             <NavLink
               style={{ textDecoration: "none" }}
-              to={team ? "/Teams" : "/Players"}
+              to={team ? pathRouts.Teams : pathRouts.Players}
             >
               <RedTitle>{team ? "Teams" : "Players"}</RedTitle>
             </NavLink>

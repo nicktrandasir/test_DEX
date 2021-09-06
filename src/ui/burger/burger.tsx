@@ -8,6 +8,7 @@ import { NavLink, useHistory } from "react-router-dom";
 import { logout } from "../../modules/authorization/authorizationSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { AppStateType } from "../../core/redux/rootReducer";
+import {pathRouts} from "../../pages/routes";
 
 export const Burger = () => {
   const history = useHistory();
@@ -17,7 +18,7 @@ export const Burger = () => {
   const userName = localStorage.name;
   const onSignOut = () => {
     isAuth && dispatch(logout());
-    history.push("./signIn");
+    history.push(pathRouts.SignIn);
   };
 
   return (
@@ -37,7 +38,7 @@ export const Burger = () => {
             </UserAvatarForSidebar>
             <HrLine />
             <TeamsIconStyle>
-              <Link to="/Teams">
+              <Link to={pathRouts.Teams}>
                 <StyledSvg
                   width="24"
                   height="24"
@@ -51,7 +52,7 @@ export const Burger = () => {
             </TeamsIconStyle>
 
             <PersonIconStyle>
-              <Link to="/Players">
+              <Link to={pathRouts.Players}>
                 <StyledSvg
                   width="24"
                   height="24"
@@ -65,7 +66,7 @@ export const Burger = () => {
             </PersonIconStyle>
           </div>
           <div style={{ display: "grid" }}>
-            <Link to="/signIn">
+            <Link to={pathRouts.SignIn}>
               <img
                 style={{ paddingRight: "8px" }}
                 src={SignOutIcon}

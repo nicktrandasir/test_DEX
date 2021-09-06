@@ -1,108 +1,94 @@
-import React, { useEffect } from "react";
+import React, {useEffect} from "react";
 import styled from "styled-components";
-import { useHistory, useParams } from "react-router-dom";
-import { maxW, theme } from "../../assets/theme/theme";
-import { useDispatch, useSelector } from "react-redux";
-import { deleteTeamThunk, getTeamThunk } from "../../modules/teams/teamsThunk";
-import { AppStateType } from "../../core/redux/rootReducer";
-import { teamForUpdate } from "../../modules/teams/teamsSlice";
-import { getPlayersThunk } from "../../modules/players/playersThunk";
-import { Roster } from "./components/roster";
-import { DetailsLayout } from "../../components/details/detailsLayout";
-import { ITeam } from "../../api/dto/ITeam";
+import {useHistory, useParams} from "react-router-dom";
+import {maxW, theme} from "../../assets/theme/theme";
+import {useDispatch, useSelector} from "react-redux";
+import {deleteTeamThunk, getTeamThunk} from "../../modules/teams/teamsThunk";
+import {AppStateType} from "../../core/redux/rootReducer";
+import {teamForUpdate} from "../../modules/teams/teamsSlice";
+import {getPlayersThunk} from "../../modules/players/playersThunk";
+import {Roster} from "./components/roster";
+import {DetailsLayout} from "../../components/details/detailsLayout";
+import {pathRouts} from "../routes";
+import {BaseUrl} from "../../api/baseRequest";
 
 export const DetailsTeam = () => {
-  const history = useHistory();
-  const dispatch = useDispatch();
-  const { team } = useSelector((state: AppStateType) => state.teams);
-  const { playersCount, selectedTeams } = useSelector(
-    (state: AppStateType) => state.players
-  );
-  const selectTeams: any = selectedTeams && selectedTeams.map((team) => team);
+    const history = useHistory();
+    const dispatch = useDispatch();
+    const {id, name, division, conference, foundationYear, imageUrl} = useSelector((state: AppStateType) => state.teams.team);
+    const {playersCount, selectedTeams} = useSelector((state: AppStateType) => state.players);
+    const selectTeams: any = selectedTeams && selectedTeams.map((team) => team);
+    const {teamId} = useParams<{ teamId: string }>();
 
-  const {
-    id,
-    name,
-    division,
-    conference,
-    foundationYear,
-    imageUrl,
-  }: ITeam | any = team || {};
+    useEffect(() => {
+        dispatch(getTeamThunk({id: +teamId}));
+        dispatch(
+            getPlayersThunk({
+                currentPage: 1,
+                pageSize: playersCount,
+                searchName: "",
+                teamIds: selectTeams,
+            })
+        );
+    }, [dispatch, teamId]);
 
-  const { teamID } = useParams<{ teamID: string }>();
+    const onDeleteTeam = async () => {
+        await dispatch(deleteTeamThunk({id}));
 
-  useEffect(() => {
-    dispatch(getTeamThunk({ id: +teamID }));
-    dispatch(
-      getPlayersThunk({
-        currentPage: 1,
-        pageSize: playersCount,
-        searchName: "",
-        teamIds: selectTeams,
-      })
+        history.push(pathRouts.Teams);
+    };
+
+    const onUpdateTeam = () => {
+        dispatch(teamForUpdate());
+        history.push(pathRouts.AddUpdateTeam);
+    };
+
+    return (
+        <DetailsLayout
+            team
+            onUpdateItem={onUpdateTeam}
+            onDeleteItem={onDeleteTeam}
+            name={name}
+        >
+            <TeamInfo>
+                <PhotoToDetailsDiv>
+                    <DetailsTeamPhoto
+                        src={`${BaseUrl}${imageUrl}`}
+                        alt="TeamPhoto"
+                    />
+                </PhotoToDetailsDiv>
+
+                <InfoToDetails>
+                    <NameTeam>{name}</NameTeam>
+
+                    <YearAndDivision>
+                        <div>
+                            <MainTitle> Year of foundation</MainTitle>
+                            <SecondaryTitle>{foundationYear}</SecondaryTitle>
+                        </div>
+                        <div>
+                            <MainTitle>Division</MainTitle>
+                            <SecondaryTitle>{division}</SecondaryTitle>
+                        </div>
+                    </YearAndDivision>
+
+                    <NameConference>
+                        <MainTitle>Conference</MainTitle>
+                        <SecondaryTitle>{conference}</SecondaryTitle>
+                    </NameConference>
+                </InfoToDetails>
+            </TeamInfo>
+
+            <Roster id={id}/>
+        </DetailsLayout>
     );
-    //eslint-disable-next-line
-  }, []);
-
-  const onDeleteTeam = async () => {
-    await dispatch(deleteTeamThunk({ id }));
-
-    history.push("/teams");
-  };
-
-  const onUpdateTeam = () => {
-    dispatch(teamForUpdate());
-    history.push("/addUpdateTeam");
-  };
-
-  return (
-    <DetailsLayout
-      team
-      onUpdateItem={onUpdateTeam}
-      onDeleteItem={onDeleteTeam}
-      name={name}
-    >
-      <TeamInfo>
-        <PhotoToDetailsDiv>
-          <DetailsTeamPhoto
-            src={`http://dev.trainee.dex-it.ru${imageUrl}`}
-            alt="TeamPhoto"
-          />
-        </PhotoToDetailsDiv>
-
-        <InfoToDetails>
-          <NameTeam>{name}</NameTeam>
-
-          <YearAndDivision>
-            <div>
-              <MainTitle> Year of foundation</MainTitle>
-              <SecondaryTitle>{foundationYear}</SecondaryTitle>
-            </div>
-            <div>
-              <MainTitle>Division</MainTitle>
-              <SecondaryTitle>{division}</SecondaryTitle>
-            </div>
-          </YearAndDivision>
-
-          <NameConference>
-            <MainTitle>Conference</MainTitle>
-            <SecondaryTitle>{conference}</SecondaryTitle>
-          </NameConference>
-        </InfoToDetails>
-      </TeamInfo>
-
-      <Roster id={id} />
-    </DetailsLayout>
-  );
 };
 
 const TeamInfo = styled.div`
   display: grid;
-  background: linear-gradient(
-    276.45deg,
-    ${theme.darkGrey1} 0%,
-    ${theme.grey} 100.28%
-  );
+  background: linear-gradient(276.45deg,
+  ${theme.darkGrey1} 0%,
+  ${theme.grey} 100.28%);
   border-radius: 0 0 10px 10px;
   grid-template-columns: auto auto;
   height: 404px;

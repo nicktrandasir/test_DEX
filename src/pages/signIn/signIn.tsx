@@ -10,6 +10,7 @@ import eyeOpened from "../../assets/icon/OpenedEye.svg";
 import eyeClosed from "../../assets/icon/ClosedEye.svg";
 import styled from "styled-components";
 import { maxW, theme } from "../../assets/theme/theme";
+import { pathRouts } from "../routes";
 
 export const SignIn = () => {
   const history = useHistory();
@@ -20,7 +21,9 @@ export const SignIn = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm(
+
+  );
   const dispatch = useDispatch();
   const onSubmit = async ({
     login,
@@ -33,9 +36,8 @@ export const SignIn = () => {
   };
 
   useEffect(() => {
-    isAuth && history.push("/Teams");
-    //eslint-disable-next-line
-  }, [isAuth]);
+    isAuth && history.push(pathRouts.Teams);
+  }, [isAuth, history]);
 
   return (
     <SignLayout onSubmit={handleSubmit(onSubmit)}>
@@ -67,7 +69,7 @@ export const SignIn = () => {
     </SignLayout>
   );
 };
-const FormGroup = styled.form`
+const FormGroup = styled.div`
   position: relative;
   margin-bottom: 24px;
   color: ${theme.grey};

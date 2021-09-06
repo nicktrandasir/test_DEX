@@ -12,9 +12,11 @@ import {
 } from "../../modules/teams/teamsSlice";
 import { getTeamsThunk } from "../../modules/teams/teamsThunk";
 import { useCallback } from "react";
+import {pathRouts} from "../routes";
+import { BaseUrl } from "../../api/baseRequest";
 
 export const CardTeams = () => {
-  const { teams, teamsCount, currentPage, pageSize } = useSelector(
+  const { teams, teamsCount, currentPage, pageSize, searchTeam } = useSelector(
     (state: AppStateType) => state.teams
   );
   const dispatch = useDispatch();
@@ -22,7 +24,7 @@ export const CardTeams = () => {
   const history = useHistory();
   const onAddTeam = () => {
     dispatch(clearUpdatedTeam());
-    history.push("/addUpdateTeam");
+    history.push(pathRouts.AddUpdateTeam);
   };
 
   useEffect(() => {
@@ -33,8 +35,7 @@ export const CardTeams = () => {
         searchName: "",
       })
     );
-    //eslint-disable-next-line
-  }, []);
+  }, [dispatch]);
 
   // ----------------------Размер страницы для селекта--------------------------------------------------------------
   const onPageSizeChange = useCallback(
@@ -43,11 +44,11 @@ export const CardTeams = () => {
         getTeamsThunk({
           currentPage: 1,
           pageSize: e.value,
-          searchName: "",
+          searchName: searchTeam || "",
         })
       );
     },
-    [dispatch]
+    [dispatch, searchTeam]
   );
 
   // ----------------------Изменение страницы для пагинации---------------------------------------------------------
@@ -57,11 +58,11 @@ export const CardTeams = () => {
         getTeamsThunk({
           currentPage: selected + 1,
           pageSize,
-          searchName: "",
+          searchName: searchTeam || "",
         })
       );
     },
-    [dispatch, pageSize]
+    [dispatch, pageSize, searchTeam]
   );
 
   // ----------------------Поиск------------------------------------------------------------------------------------
@@ -82,11 +83,11 @@ export const CardTeams = () => {
   const allTeams = useMemo(
     () =>
       teams?.map((team: ITeam) => (
-        <CardItem>
-          <StyledLink to={"/detailsTeam/" + team.id}>
+        <CardItem key={team.id}>
+          <StyledLink to={pathRouts.DetailsTeam + team.id}>
             <TeamPhotoDiv>
               <TeamPhoto
-                src={`http://dev.trainee.dex-it.ru${team.imageUrl}`}
+                src={`${BaseUrl}${team.imageUrl}`}
                 alt="Photo"
               />
             </TeamPhotoDiv>

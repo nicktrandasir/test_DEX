@@ -6,6 +6,7 @@ import SignInPic from "../../assets/img/SignIn.svg";
 import { maxW, theme } from "../../assets/theme/theme";
 import { Button } from "../../ui/button/button";
 import { FC } from "react";
+import { pathRouts } from "../../pages/routes";
 
 interface IProps {
   signUp?: boolean;
@@ -25,7 +26,7 @@ export const SignLayout: FC<IProps> = ({ signUp, children, onSubmit }) => {
         <SignLink>
           <span style={{ alignItems: "center" }}>
             {signUp ? "Already a member?" : "Not a member yet?"}{" "}
-            <StyledLink to={signUp ? "/signIn" : "/signUp"}>
+            <StyledLink to={signUp ? pathRouts.SignIn : pathRouts.SignUp}>
               {signUp ? "Sign In" : "Sign Up"}
             </StyledLink>
           </span>

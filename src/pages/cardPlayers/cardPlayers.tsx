@@ -12,6 +12,8 @@ import {
 import { getPlayersThunk } from "../../modules/players/playersThunk";
 import { getTeamsThunk } from "../../modules/teams/teamsThunk";
 import { CardItemsLayout } from "../../components/сardItems/cardItemsLayout";
+import { pathRouts } from "../routes";
+import { BaseUrl } from "../../api/baseRequest";
 
 export const CardPlayers = () => {
   const dispatch = useDispatch();
@@ -32,7 +34,7 @@ export const CardPlayers = () => {
 
   const onAddPlayer = () => {
     dispatch(clearUpdatedPlayer());
-    history.push("/addUpdatePlayer");
+    history.push(pathRouts.AddUpdatePlayer);
   };
 
   useEffect(() => {
@@ -51,8 +53,7 @@ export const CardPlayers = () => {
         teamIds: [],
       })
     );
-    //eslint-disable-next-line
-  }, []);
+  }, [dispatch, teamsCount]);
 
   // ----------------------Размер страницы для селекта--------------------------------------------------------------
   const onPageSizeChange = useCallback(
@@ -135,11 +136,11 @@ export const CardPlayers = () => {
         const teamName = teams.find((team) => team.id === player.team);
 
         return (
-          <CardItem>
-            <StyledLink to={"/detailsPlayer/" + player.id}>
+          <CardItem key={player.id}>
+            <StyledLink to={pathRouts.DetailsPlayer + player.id}>
               <PlayerPhotoDiv>
                 <PlayerPhoto
-                  src={`http://dev.trainee.dex-it.ru${player.avatarUrl}`}
+                  src={`${BaseUrl}${player.avatarUrl}`}
                   alt="Photo"
                 />
               </PlayerPhotoDiv>

@@ -17,6 +17,9 @@ export const Button: React.FC<Props> = ({
   large,
   small,
 }) => {
+
+
+
   return (
     <div>
       <ButtonStyle
@@ -25,6 +28,7 @@ export const Button: React.FC<Props> = ({
         large={large}
         small={small}
         type={red ? "submit" : "reset"}
+
       >
         {name}
       </ButtonStyle>

@@ -17,22 +17,24 @@ import { CustomSelect } from "../../ui/customSelect/customSelect";
 import { IUpdatePlayerRequest } from "../../api/dto/IPlayer";
 import { AddUpdateLayout } from "../../components/addUpdate/addUpdateLayout";
 import { getTeamsThunk } from "../../modules/teams/teamsThunk";
+import {pathRouts} from "../routes";
 
 export const AddUpdatePlayer = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const { updatedPlayer } = useSelector((state: AppStateType) => state.players);
+
   const onCancel = () => {
-    history.push("./players");
+    history.push(pathRouts.Players);
   };
   const {
     register,
     setValue,
     handleSubmit,
     control,
-    formState: { errors },
+    formState: { errors }
   } = useForm();
-
+// @ts-ignore
   useEffect(() => {
     dispatch(
       getTeamsThunk({
@@ -42,14 +44,12 @@ export const AddUpdatePlayer = () => {
       })
     );
     dispatch(getPlayersPositionsThunk());
-    //eslint-disable-next-line
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     setValue("position", updatedPlayer?.position);
     setValue("team", updatedPlayer?.team);
-    //eslint-disable-next-line
-  }, [updatedPlayer]);
+  }, [updatedPlayer, setValue]);
 
   const { teams } = useSelector((state: AppStateType) => state.teams);
   const { positions } = useSelector((state: AppStateType) => state.players);
@@ -74,15 +74,14 @@ export const AddUpdatePlayer = () => {
           })
         );
         dispatch(clearUpdatedPlayer());
-
-        history.push("/players");
+        history.push(pathRouts.Players);
       } else {
         dispatch(
           addPlayerThunk({
             ...data,
           })
         );
-        history.push("/players");
+        history.push(pathRouts.Players);
       }
     },
     [dispatch, history, updatedPlayer]

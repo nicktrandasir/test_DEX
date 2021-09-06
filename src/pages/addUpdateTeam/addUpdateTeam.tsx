@@ -10,12 +10,13 @@ import { clearUpdatedTeam } from "../../modules/teams/teamsSlice";
 import { CustomInput } from "../../ui/customInput/customInput";
 import { IAddTeam } from "../../api/dto/ITeam";
 import { AddUpdateLayout } from "../../components/addUpdate/addUpdateLayout";
+import {pathRouts} from "../routes";
 
 export const AddUpdateTeam = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const onCancel = () => {
-    history.push("./teams");
+    history.push(pathRouts.Teams);
   };
 
   const { updatedTeam } = useSelector((state: AppStateType) => state.teams);
@@ -39,11 +40,11 @@ export const AddUpdateTeam = () => {
 
         dispatch(clearUpdatedTeam());
 
-        history.push("/teams");
+        history.push(pathRouts.Teams);
       } else {
         await dispatch(addTeamThunk({ ...data }));
 
-        history.push("/teams");
+        history.push(pathRouts.Teams);
       }
     },
     [dispatch, history, updatedTeam]
