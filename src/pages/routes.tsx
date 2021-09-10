@@ -20,8 +20,8 @@ export const PrivateRoute = ({ component, ...props }: any) => {
 export const pathRouts = {
   Teams: "/teams",
   Players: "/players",
-  AddUpdateTeam: "/add_update_team",
-  AddUpdatePlayer: "/add_update_player",
+  AddUpdateTeam: "/add_update_team/",
+  AddUpdatePlayer: "/add_update_player/",
   DetailsTeam: "/details_team/",
   DetailsPlayer: "/details_player/",
   NotFound: "*",
@@ -41,12 +41,22 @@ export const routes = [
     main: () => <CardPlayers />,
   },
   {
-    path: pathRouts.AddUpdateTeam,
+    path: pathRouts.AddUpdateTeam ,
+    exact: true,
+    main: () => <AddUpdateTeam />,
+  },
+  {
+    path: pathRouts.AddUpdateTeam + ":teamId",
     exact: true,
     main: () => <AddUpdateTeam />,
   },
   {
     path: pathRouts.AddUpdatePlayer,
+    exact: true,
+    main: () => <AddUpdatePlayer />,
+  },
+  {
+    path: pathRouts.AddUpdatePlayer + ":playerId",
     exact: true,
     main: () => <AddUpdatePlayer />,
   },

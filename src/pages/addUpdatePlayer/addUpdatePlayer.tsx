@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React, {useCallback, useEffect, useMemo} from "react";
 import styled from "styled-components";
 import { Controller, useForm } from "react-hook-form";
 import { maxW, theme } from "../../assets/theme/theme";
@@ -6,12 +6,12 @@ import "react-datepicker/dist/react-datepicker.css";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addPlayerThunk,
-  getPlayersPositionsThunk,
+  getPlayersPositionsThunk, getPlayerThunk,
   updatePlayerThunk,
 } from "../../modules/players/playersThunk";
-import { useHistory } from "react-router-dom";
+import {useHistory, useParams} from "react-router-dom";
 import { AppStateType } from "../../core/redux/rootReducer";
-import { clearUpdatedPlayer } from "../../modules/players/playersSlice";
+import {clearUpdatedPlayer, playerForUpdate} from "../../modules/players/playersSlice";
 import { CustomInput } from "../../ui/customInput/customInput";
 import { CustomSelect } from "../../ui/customSelect/customSelect";
 import { IUpdatePlayerRequest } from "../../api/dto/IPlayer";
@@ -22,7 +22,6 @@ import { pathRouts } from "../routes";
 export const AddUpdatePlayer = () => {
   const history = useHistory();
   const dispatch = useDispatch();
-  const { updatedPlayer } = useSelector((state: AppStateType) => state.players);
 
   const onCancel = () => {
     history.push(pathRouts.Players);
@@ -32,9 +31,18 @@ export const AddUpdatePlayer = () => {
     setValue,
     handleSubmit,
     control,
-    formState: { errors },
+
+    formState: { errors }
+
   } = useForm();
-  // @ts-ignore
+
+  const { playerId } = useParams<{ playerId: string }>();
+ useMemo(async() => {
+   playerId && await dispatch(getPlayerThunk({ id: +playerId }))
+   playerId && dispatch(playerForUpdate())
+ }, [playerId])
+
+
   useEffect(() => {
     dispatch(
       getTeamsThunk({
@@ -46,10 +54,22 @@ export const AddUpdatePlayer = () => {
     dispatch(getPlayersPositionsThunk());
   }, [dispatch]);
 
+  const { updatedPlayer } = useSelector((state: AppStateType) => state.players);
+
   useEffect(() => {
+    setValue("name", updatedPlayer?.name);
+    setValue("height", updatedPlayer?.height);
+    setValue("weight", updatedPlayer?.weight);
+    setValue("number", updatedPlayer?.number);
+    setValue("birthday", updatedPlayer?.birthday);
+
     setValue("position", updatedPlayer?.position);
     setValue("team", updatedPlayer?.team);
+
   }, [updatedPlayer, setValue]);
+
+
+
 
   const { teams } = useSelector((state: AppStateType) => state.teams);
   const { positions } = useSelector((state: AppStateType) => state.players);
@@ -87,6 +107,7 @@ export const AddUpdatePlayer = () => {
     [dispatch, history, updatedPlayer]
   );
 
+
   return (
     <AddUpdateLayout
       onSubmit={handleSubmit(onSubmit)}
@@ -118,9 +139,10 @@ export const AddUpdatePlayer = () => {
                 isSearchable={false}
                 options={optionsPositions}
                 onChange={(e: EventTarget) => onChange(e.value)}
+
                 defaultValue={{
                   label: updatedPlayer?.position,
-                  value: updatedPlayer?.position,
+                  value: updatedPlayer?.position
                 }}
               />
             )}

@@ -45,7 +45,7 @@ export const DetailsPlayer = () => {
   };
   const onUpdatePlayer = async () => {
     await dispatch(playerForUpdate());
-    history.push(pathRouts.AddUpdatePlayer);
+    history.push(pathRouts.AddUpdatePlayer + playerId);
   };
 
   return (

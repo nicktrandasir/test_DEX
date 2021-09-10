@@ -37,13 +37,12 @@ export const DetailsTeam = () => {
 
   const onDeleteTeam = async () => {
     await dispatch(deleteTeamThunk({ id }));
-
     history.push(pathRouts.Teams);
   };
 
   const onUpdateTeam = () => {
     dispatch(teamForUpdate());
-    history.push(pathRouts.AddUpdateTeam);
+    history.push(pathRouts.AddUpdateTeam + teamId);
   };
 
   return (

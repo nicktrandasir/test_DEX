@@ -1,12 +1,12 @@
-import React, { useCallback } from "react";
+import React, {useCallback, useEffect, useMemo} from "react";
 import styled from "styled-components";
 import { theme } from "../../assets/theme/theme";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { addTeamThunk, updateTeamThunk } from "../../modules/teams/teamsThunk";
-import { useHistory } from "react-router-dom";
+import {addTeamThunk, getTeamThunk, updateTeamThunk} from "../../modules/teams/teamsThunk";
+import {useHistory, useParams} from "react-router-dom";
 import { AppStateType } from "../../core/redux/rootReducer";
-import { clearUpdatedTeam } from "../../modules/teams/teamsSlice";
+import {clearUpdatedTeam, teamForUpdate} from "../../modules/teams/teamsSlice";
 import { CustomInput } from "../../ui/customInput/customInput";
 import { IAddTeam } from "../../api/dto/ITeam";
 import { AddUpdateLayout } from "../../components/addUpdate/addUpdateLayout";
@@ -27,23 +27,35 @@ export const AddUpdateTeam = () => {
     formState: { errors },
   } = useForm();
 
+  const { teamId } = useParams<{ teamId: string }>();
+  useMemo(async() => {
+    teamId && await dispatch(getTeamThunk({ id: +teamId }));
+    teamId && dispatch(teamForUpdate());
+  }, [teamId ])
+
+
+  useEffect(() => {
+    setValue("name", updatedTeam?.name);
+    setValue("division", updatedTeam?.division);
+    setValue("conference", updatedTeam?.conference);
+    setValue("foundationYear", updatedTeam?.foundationYear);
+  }, [updatedTeam, setValue]);
+
+
   const onSubmit = useCallback(
     async (data: IAddTeam) => {
-      if (updatedTeam) {
+      if (teamId) {
         await dispatch(
           updateTeamThunk({
             ...data,
-            id: updatedTeam?.id,
+            id: teamId,
             imageUrl: data.imageUrl ?? updatedTeam?.imageUrl,
           })
         );
-
         dispatch(clearUpdatedTeam());
-
         history.push(pathRouts.Teams);
       } else {
         await dispatch(addTeamThunk({ ...data }));
-
         history.push(pathRouts.Teams);
       }
     },
@@ -66,7 +78,7 @@ export const AddUpdateTeam = () => {
             name={"name"}
             errors={errors}
             register={register}
-            defaultValue={updatedTeam?.name}
+            // defaultValue={updatedTeam?.name}
           />
         </InputAndLabelStyle>
 
@@ -77,7 +89,7 @@ export const AddUpdateTeam = () => {
             name={"division"}
             errors={errors}
             register={register}
-            defaultValue={updatedTeam?.division}
+            // defaultValue={updatedTeam?.division}
           />
         </InputAndLabelStyle>
 
@@ -88,7 +100,7 @@ export const AddUpdateTeam = () => {
             name={"conference"}
             errors={errors}
             register={register}
-            defaultValue={updatedTeam?.conference}
+            // defaultValue={updatedTeam?.conference}
           />
         </InputAndLabelStyle>
 
@@ -100,7 +112,7 @@ export const AddUpdateTeam = () => {
             name={"foundationYear"}
             errors={errors}
             register={register}
-            defaultValue={updatedTeam?.foundationYear}
+            // defaultValue={updatedTeam?.foundationYear}
           />
         </InputAndLabelStyle>
       </div>
