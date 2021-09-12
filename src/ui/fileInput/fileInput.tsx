@@ -3,7 +3,7 @@ import AddPhotoImg from "../../assets/icon/add_a_photo_24px_rounded.svg";
 import { maxW, theme } from "../../assets/theme/theme";
 import styled from "styled-components";
 import { FC } from "react";
-import {BaseUrl} from "../../api/baseRequest";
+import { BaseUrl } from "../../api/baseRequest";
 
 interface IProps {
   team?: boolean;

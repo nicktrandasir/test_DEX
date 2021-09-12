@@ -2,7 +2,7 @@ import React, { ChangeEvent, useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { maxW, theme } from "../../assets/theme/theme";
-import {NavLink, useHistory, useParams} from "react-router-dom";
+import { NavLink, useHistory, useParams } from "react-router-dom";
 import { AppStateType } from "../../core/redux/rootReducer";
 import { ITeam } from "../../api/dto/ITeam";
 import { CardItemsLayout } from "../../components/сardItems/cardItemsLayout";

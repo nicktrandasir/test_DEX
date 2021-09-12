@@ -12,6 +12,8 @@ import { maxW, theme } from "../../assets/theme/theme";
 import { pathRouts } from "../routes";
 import { useHistory } from "react-router-dom";
 import { AppStateType } from "../../core/redux/rootReducer";
+import { Controller } from "react-hook-form";
+import { CustomSelect } from "../../ui/customSelect/customSelect";
 
 export const SignUp = () => {
   const history = useHistory();
@@ -24,6 +26,8 @@ export const SignUp = () => {
     register,
     handleSubmit,
     formState: { errors },
+    getValues,
+    control,
   } = useForm({
     mode: "onBlur",
   });
@@ -39,8 +43,9 @@ export const SignUp = () => {
   }) => {
     dispatch(setRegisterThunk({ userName, login, password }));
   };
-
   const [isRevealPwd, setIsRevealPwd] = useState(false);
+
+  console.log(errors);
 
   return (
     <SignLayout onSubmit={handleSubmit(onSubmit)} signUp>
@@ -86,12 +91,27 @@ export const SignUp = () => {
           src={isRevealPwd ? eyeOpened : eyeClosed}
           onClick={() => setIsRevealPwd((prevState) => !prevState)}
         />
-        <CustomInput
-          required="Required"
-          type={isRevealPwd ? "text" : "password"}
-          name={"confirm"}
-          errors={errors}
-          register={register}
+        <Controller
+          name="confirm"
+          control={control}
+          rules={{
+            validate: (value) => {
+              if (value === getValues()["password"]) {
+                return true;
+              } else {
+                return "The passwords do not match";
+              }
+            },
+          }}
+          render={() => (
+            <CustomInput
+              required="Required"
+              type={isRevealPwd ? "text" : "password"}
+              name={"confirm"}
+              errors={errors}
+              register={register}
+            />
+          )}
         />
       </FormGroup>
 

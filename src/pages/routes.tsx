@@ -41,7 +41,7 @@ export const routes = [
     main: () => <CardPlayers />,
   },
   {
-    path: pathRouts.AddUpdateTeam ,
+    path: pathRouts.AddUpdateTeam,
     exact: true,
     main: () => <AddUpdateTeam />,
   },

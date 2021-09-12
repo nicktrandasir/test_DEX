@@ -24,9 +24,6 @@ export const AddUpdateLayout: FC<IProps> = ({
   defaultValue,
   onCancel,
 }) => {
-
-
-
   return (
     <HeaderSidebarLayout>
       <AddItemContainer>

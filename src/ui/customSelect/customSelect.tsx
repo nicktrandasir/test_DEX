@@ -1,8 +1,9 @@
-import React from "react";
+import React, {useEffect, useMemo} from "react";
 import Select from "react-select";
 import { MenuPlacement } from "react-select/src/types";
 import { theme } from "../../assets/theme/theme";
 import { ValueContainer } from "./components/multiLabelContainer";
+import styled from "styled-components";
 
 export const CustomSelect = ({
   options,
@@ -13,7 +14,7 @@ export const CustomSelect = ({
   menuPlacement,
   onChange,
   errors,
-  pageCount,
+  pageCount
 }: {
   options?: Array<object>;
   defaultValue?: object;
@@ -22,7 +23,7 @@ export const CustomSelect = ({
   isClearable?: boolean;
   menuPlacement?: MenuPlacement;
   onChange?: (values: any) => void;
-  errors?: string;
+  errors?: string | any;
   pageCount?: boolean;
 }) => {
   const StyleForSelect = {
@@ -168,10 +169,12 @@ export const CustomSelect = ({
     }),
   };
 
+  console.log(defaultValue)
+
   return (
     <div>
       <Select
-        addSelect
+
         errors={errors}
         styles={StyleForSelect}
         options={options}
@@ -183,6 +186,24 @@ export const CustomSelect = ({
         isMulti={isMulti}
         components={{ ValueContainer }}
       />
+
+      {errors && errors.type === "required" && (
+          <SpanForMessage>
+            <ValidationMessage>
+              {errors && errors?.message}
+            </ValidationMessage>
+          </SpanForMessage>
+      )}
     </div>
   );
 };
+
+const SpanForMessage = styled.span`
+  color: ${theme.lightestRed};
+`;
+
+const ValidationMessage = styled.p`
+  font-size: 12px;
+  line-height: 0;
+  color: ${theme.lightestRed};
+`;

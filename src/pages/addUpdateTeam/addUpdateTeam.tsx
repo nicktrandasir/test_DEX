@@ -1,12 +1,19 @@
-import React, {useCallback, useEffect, useMemo} from "react";
+import React, { useCallback, useEffect, useMemo } from "react";
 import styled from "styled-components";
 import { theme } from "../../assets/theme/theme";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import {addTeamThunk, getTeamThunk, updateTeamThunk} from "../../modules/teams/teamsThunk";
-import {useHistory, useParams} from "react-router-dom";
+import {
+  addTeamThunk,
+  getTeamThunk,
+  updateTeamThunk,
+} from "../../modules/teams/teamsThunk";
+import { useHistory, useParams } from "react-router-dom";
 import { AppStateType } from "../../core/redux/rootReducer";
-import {clearUpdatedTeam, teamForUpdate} from "../../modules/teams/teamsSlice";
+import {
+  clearUpdatedTeam,
+  teamForUpdate,
+} from "../../modules/teams/teamsSlice";
 import { CustomInput } from "../../ui/customInput/customInput";
 import { IAddTeam } from "../../api/dto/ITeam";
 import { AddUpdateLayout } from "../../components/addUpdate/addUpdateLayout";
@@ -28,11 +35,10 @@ export const AddUpdateTeam = () => {
   } = useForm();
 
   const { teamId } = useParams<{ teamId: string }>();
-  useMemo(async() => {
-    teamId && await dispatch(getTeamThunk({ id: +teamId }));
+  useMemo(async () => {
+    teamId && (await dispatch(getTeamThunk({ id: +teamId })));
     teamId && dispatch(teamForUpdate());
-  }, [teamId ])
-
+  }, [teamId]);
 
   useEffect(() => {
     setValue("name", updatedTeam?.name);
@@ -40,7 +46,6 @@ export const AddUpdateTeam = () => {
     setValue("conference", updatedTeam?.conference);
     setValue("foundationYear", updatedTeam?.foundationYear);
   }, [updatedTeam, setValue]);
-
 
   const onSubmit = useCallback(
     async (data: IAddTeam) => {

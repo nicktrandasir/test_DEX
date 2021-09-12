@@ -9,7 +9,7 @@ interface IProps {
   name: string;
   placeholder?: string;
   errors?: object | any;
-  register: UseFormRegister<FieldValues> | any;
+  register?: UseFormRegister<FieldValues> | any;
   defaultValue?: string | number | object;
   smallSize?: boolean;
   date?: boolean;
@@ -40,13 +40,15 @@ export const CustomInput: FC<IProps> = ({
         defaultValue={defaultValue}
       />
 
-      {errors[name] && errors[name].type === "required" && (
-        <div style={{ color: `${theme.lightestRed}` }}>
-          <ValidationMessage>
-            {errors[name] && errors[name].message}
-          </ValidationMessage>
-        </div>
-      )}
+      {errors[name] &&
+        (errors[name].type === "required" ||
+          errors[name].type === "validate") && (
+          <div style={{ color: `${theme.lightestRed}` }}>
+            <ValidationMessage>
+              {errors[name] && errors[name].message}
+            </ValidationMessage>
+          </div>
+        )}
     </div>
   );
 };
