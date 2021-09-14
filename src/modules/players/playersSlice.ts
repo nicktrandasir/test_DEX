@@ -31,6 +31,7 @@ export const playersSlice = createSlice({
       state.updatedPlayer = state.player;
     },
     clearUpdatedPlayer: (state) => {
+      state.player.id = 0;
       state.updatedPlayer = null;
     },
     setSearchPlayer: (state, { payload }) => {

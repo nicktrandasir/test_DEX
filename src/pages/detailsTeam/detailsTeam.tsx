@@ -33,7 +33,7 @@ export const DetailsTeam = () => {
         teamIds: selectTeams,
       })
     );
-  }, [dispatch, teamId]);
+  }, [dispatch, teamId, playersCount]);
 
   const onDeleteTeam = async () => {
     await dispatch(deleteTeamThunk({ id }));

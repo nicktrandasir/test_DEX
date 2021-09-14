@@ -38,7 +38,7 @@ export const AddUpdateTeam = () => {
   useMemo(async () => {
     teamId && (await dispatch(getTeamThunk({ id: +teamId })));
     teamId && dispatch(teamForUpdate());
-  }, [teamId]);
+  }, [teamId, dispatch]);
 
   useEffect(() => {
     setValue("name", updatedTeam?.name);
@@ -64,7 +64,7 @@ export const AddUpdateTeam = () => {
         history.push(pathRouts.Teams);
       }
     },
-    [dispatch, history, updatedTeam]
+    [dispatch, history, updatedTeam, teamId]
   );
 
   return (

@@ -13,7 +13,6 @@ import { pathRouts } from "../routes";
 import { useHistory } from "react-router-dom";
 import { AppStateType } from "../../core/redux/rootReducer";
 import { Controller } from "react-hook-form";
-import { CustomSelect } from "../../ui/customSelect/customSelect";
 
 export const SignUp = () => {
   const history = useHistory();

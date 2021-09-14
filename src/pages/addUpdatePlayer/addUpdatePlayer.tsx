@@ -26,7 +26,6 @@ import { pathRouts } from "../routes";
 export const AddUpdatePlayer = () => {
   const history = useHistory();
   const dispatch = useDispatch();
-  const { updatedPlayer } = useSelector((state: AppStateType) => state.players);
 
   const onCancel = () => {
     history.push(pathRouts.Players);
@@ -37,33 +36,20 @@ export const AddUpdatePlayer = () => {
     handleSubmit,
     control,
     formState: { errors },
-  } = useForm()
+  } = useForm();
 
   const { teams } = useSelector((state: AppStateType) => state.teams);
   const { positions } = useSelector((state: AppStateType) => state.players);
 
   const optionsDivision = teams?.map((team) => {
-
-
-
     return { label: team.name, value: team.id };
   });
   const optionsPositions = positions?.map((position) => {
     return { label: position, value: position };
   });
 
-
-
   const { playerId } = useParams<{ playerId: string }>();
-  useMemo(async () => {
-    playerId && (await dispatch(getPlayerThunk({ id: +playerId })));
-    playerId && dispatch(playerForUpdate());
-
-
-
-  }, [playerId, ]);
-
-
+  const { updatedPlayer } = useSelector((state: AppStateType) => state.players);
 
   useEffect(() => {
     dispatch(
@@ -74,24 +60,24 @@ export const AddUpdatePlayer = () => {
       })
     );
     dispatch(getPlayersPositionsThunk());
+
+    async function setDefVal() {
+      playerId &&
+        (await dispatch(getPlayerThunk({ id: +playerId }))) &&
+        dispatch(playerForUpdate());
+    }
+    setDefVal();
   }, [dispatch]);
 
-
-
-useEffect(() => {
+  useEffect(() => {
     setValue("name", updatedPlayer?.name);
     setValue("height", updatedPlayer?.height);
     setValue("weight", updatedPlayer?.weight);
     setValue("number", updatedPlayer?.number);
     setValue("birthday", updatedPlayer?.birthday);
-
     setValue("position", updatedPlayer?.position);
     setValue("team", updatedPlayer?.team);
   }, [updatedPlayer, setValue]);
-
-
-
-
 
   const onSubmit = useCallback(
     async (data: IUpdatePlayerRequest) => {
@@ -140,45 +126,49 @@ useEffect(() => {
 
         <InputAndLabelStyle>
           <SelectLabel>Position</SelectLabel>
-          <Controller
-            name="position"
-            control={control}
-            rules={{ required: "Required" }}
-            render={({ field: { onChange } }) => (
-              <CustomSelect
 
-                errors={errors?.position}
-                isSearchable={false}
-                options={optionsPositions}
-                onChange={(e: EventTarget) => onChange(e.value)}
-                defaultValue={{
-                  label: updatedPlayer?.position,
-                  value: updatedPlayer?.position
-                }}
-              />
-            )}
-          />
+          {(updatedPlayer || !playerId) && (
+            <Controller
+              name="position"
+              control={control}
+              rules={{ required: "Required" }}
+              render={({ field: { onChange } }) => (
+                <CustomSelect
+                  errors={errors?.position}
+                  isSearchable={false}
+                  options={optionsPositions}
+                  onChange={(e: EventTarget) => onChange(e.value)}
+                  defaultValue={{
+                    label: updatedPlayer?.position,
+                    value: updatedPlayer?.position,
+                  }}
+                />
+              )}
+            />
+          )}
         </InputAndLabelStyle>
 
         <InputAndLabelStyle>
           <SelectLabel>Team</SelectLabel>
-          <Controller
-            name="team"
-            control={control}
-            rules={{ required: "Required" }}
-            render={({ field: { onChange } }) => (
-              <CustomSelect
-                errors={errors?.team}
-                isSearchable={false}
-                options={optionsDivision}
-                onChange={(e: EventTarget) => onChange(e.value)}
-                defaultValue={{
-                  label: updatedPlayer?.teamName,
-                  value: updatedPlayer?.team
-                }}
-              />
-            )}
-          />
+          {(updatedPlayer || !playerId) && (
+            <Controller
+              name="team"
+              control={control}
+              rules={{ required: "Required" }}
+              render={({ field: { onChange } }) => (
+                <CustomSelect
+                  errors={errors?.team}
+                  isSearchable={false}
+                  options={optionsDivision}
+                  onChange={(e: EventTarget) => onChange(e.value)}
+                  defaultValue={{
+                    label: updatedPlayer?.teamName,
+                    value: updatedPlayer?.team,
+                  }}
+                />
+              )}
+            />
+          )}
         </InputAndLabelStyle>
       </FirstBlock>
       <SecondBlock>
@@ -267,7 +257,6 @@ const SecondBlock = styled.div`
   display: grid;
   grid-template-columns: 171px 171px;
   column-gap: 24px;
-
   @media screen and (${maxW.ssm}) {
     grid-template-columns: 1fr 1fr;
   }

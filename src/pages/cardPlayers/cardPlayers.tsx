@@ -34,6 +34,7 @@ export const CardPlayers = () => {
 
   const onAddPlayer = () => {
     dispatch(clearUpdatedPlayer());
+
     history.push(pathRouts.AddUpdatePlayer);
   };
 
@@ -45,6 +46,7 @@ export const CardPlayers = () => {
         searchName: "",
       })
     );
+
     dispatch(
       getPlayersThunk({
         currentPage: 1,

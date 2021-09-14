@@ -1,9 +1,11 @@
-import React, {useEffect, useMemo} from "react";
+import React from "react";
 import Select from "react-select";
 import { MenuPlacement } from "react-select/src/types";
 import { theme } from "../../assets/theme/theme";
 import { ValueContainer } from "./components/multiLabelContainer";
 import styled from "styled-components";
+import { useSelector } from "react-redux";
+import { AppStateType } from "../../core/redux/rootReducer";
 
 export const CustomSelect = ({
   options,
@@ -14,10 +16,10 @@ export const CustomSelect = ({
   menuPlacement,
   onChange,
   errors,
-  pageCount
+  pageCount,
 }: {
   options?: Array<object>;
-  defaultValue?: object;
+  defaultValue?: object | any;
   isMulti?: boolean;
   isSearchable?: boolean;
   isClearable?: boolean;
@@ -169,16 +171,13 @@ export const CustomSelect = ({
     }),
   };
 
-  console.log(defaultValue)
-
   return (
     <div>
       <Select
-
-        errors={errors}
-        styles={StyleForSelect}
         options={options}
         defaultValue={defaultValue}
+        errors={errors}
+        styles={StyleForSelect}
         onChange={onChange}
         menuPlacement={menuPlacement}
         isClearable={isClearable}
@@ -188,11 +187,9 @@ export const CustomSelect = ({
       />
 
       {errors && errors.type === "required" && (
-          <SpanForMessage>
-            <ValidationMessage>
-              {errors && errors?.message}
-            </ValidationMessage>
-          </SpanForMessage>
+        <SpanForMessage>
+          <ValidationMessage>{errors && errors?.message}</ValidationMessage>
+        </SpanForMessage>
       )}
     </div>
   );
